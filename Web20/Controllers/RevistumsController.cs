@@ -18,8 +18,14 @@ namespace Web20
             _context = context;
         }
 
+        [HttpPost]
+        public string Index(string search, bool notUsed)
+        {
+            return "From [HttpGet]Index: filter on " + search;
+        }
+
         // GET: Revistums
-        public async Task<IActionResult> Index(string searchstring)
+        public async Task<IActionResult> Index(string search)
         {
 #warning Este método contem uma parte de código não elegante. A fim de evitar a consulta e resposta de todos os resultados de maneira desnecessária -- Não esquecer de buscar uma solução mais elegante para o problema
             int block = 0; //Variável a fim de impedir a consulta desnecessária de todos os itens do CRUD -- Favor tratar esse código maneira mais elegante
@@ -29,10 +35,10 @@ namespace Web20
 
             var Revista = from r in _context.Revista
                         select r;
-            if (!String.IsNullOrEmpty(searchstring))
+            if (!String.IsNullOrEmpty(search))
             {
                 Revista =
-                    Revista.Where(r => r.Titulo.Contains(searchstring) || r.Aleph.Equals(searchstring)).Include(r => r.CdEditorNavigation).Include(r => r.CdPeriodicidadeNavigation).OrderBy(r => r.Titulo);
+                    Revista.Where(r => r.Titulo.Contains(search) || r.Aleph.Equals(search) || r.Issn.Contains(search)).Where(r => r.Ativo.Equals(true)).Include(r => r.CdEditorNavigation).Include(r => r.CdPeriodicidadeNavigation).OrderBy(r => r.Titulo);
                 return View(await Revista.ToListAsync());
             }
             return View(await appDbContext.ToListAsync());

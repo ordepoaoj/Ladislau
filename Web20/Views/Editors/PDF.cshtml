@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Web20.Models.Editor>
+
+<h1>Editores</h1>
+
+<table class="table">
+    
+    <tbody>
+
+        <tr>
+            <th>
+                Editor
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Endereco)
+            </th>
+            <th>
+                Pais
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="width:43%">
+                    <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.NomeEditor) </a>
+                </td>
+                <td style="width:43%">
+                    @Html.DisplayFor(modelItem => item.Endereco)
+                </td>
+                <td style="width:14%">
+                    @Html.DisplayFor(modelItem => item.CodPaisNavigation.NomePais)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -6,11 +6,20 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Revistas</h1>
 
 <p>
     <a asp-action="Create">Novo</a>
 </p>
+
+<form asp-controller="Revistums" asp-action="Index" method="get">
+    <p>
+        <input type="text" name="Search" class="form-control" placeholder="Nome da Revista, ISSN ou Aleph">
+        <input type="submit" value="Pesquisar" class="btn btn-info" />
+
+    </p>
+</form>
+
 <table class="table">
     <thead>
         <tr>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Rotativa.AspNetCore;
 using Web20.Models;
 
 namespace Web20.Controllers
@@ -19,24 +21,25 @@ namespace Web20.Controllers
         {
             _context = context;
         }
-
+        
         [HttpPost]
-        public string Index(string searchString, bool notUsed)
+        
+        public string Index(string search, bool notUsed)
         {
-            return "From [HttpPost]Index: filter on " + searchString;
+            return "From [HttpPost]Index: filter on " + search;
         }
 
         // GET: Editors
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string search)
         {
             var appDbContext = _context.Editors.Include(e => e.CodPaisNavigation).OrderBy(e => e.NomeEditor);
             
 
             var Editor = from e in _context.Editors
                          select e;
-            if(!String.IsNullOrEmpty(searchString))
+            if(!String.IsNullOrEmpty(search))
             {
-                Editor = Editor.Where(s => s.NomeEditor.Contains(searchString)).Include(e => e.CodPaisNavigation).OrderBy(e => e.NomeEditor);
+                Editor = Editor.Where(s => s.NomeEditor.Contains(search)).Include(e => e.CodPaisNavigation).OrderBy(e => e.NomeEditor);
                 
                 return View(await Editor.ToListAsync());
             }
@@ -51,9 +54,16 @@ namespace Web20.Controllers
                 return NotFound();
             }
 
+            EditorIndex indice = new EditorIndex();
             var editor = await _context.Editors
-                .Include(e => e.CodPaisNavigation)
+                .Include(e => e.Revista)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
+            var Revista = from r in _context.Revista
+                          select r;
+
+            ViewData["Revista"] = Revista.Where(r => r.CdEditor.Equals(id));
+
             if (editor == null)
             {
                 return NotFound();
@@ -184,6 +194,12 @@ namespace Web20.Controllers
             }
             return RedirectToAction(nameof(Pendente), new {id = id });
 
+        }
+
+        public async Task<IActionResult> PDF()
+        {
+            var appDbContext = _context.Editors.Include(e => e.CodPaisNavigation).OrderBy(e => e.NomeEditor);
+            return new ViewAsPdf(await appDbContext.ToListAsync());
         }
 
         // POST: Editors/Delete/5
