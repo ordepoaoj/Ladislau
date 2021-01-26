@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using ClosedXML.Excel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Rotativa.AspNetCore;
 using Web20.Models;
 
 namespace Web20
@@ -148,6 +151,48 @@ namespace Web20
             ViewData["CdEditor"] = new SelectList(_context.Editors, "Id", "NomeEditor", revistum.CdEditor);
             ViewData["CdPeriodicidade"] = new SelectList(_context.Periodicidades, "Id", "TipoPeriodicidade", revistum.CdPeriodicidade);
             return View(revistum);
+        }
+
+        public async Task<IActionResult> PDF()
+        {
+            return new ViewAsPdf(await _context.Revista.Include(r => r.CdAquisicaoNavigation).Include(r => r.CdEditorNavigation).Include(r => r.CdPeriodicidadeNavigation).OrderBy(r => r.Titulo).ToListAsync());
+        }
+
+        public async Task<IActionResult> Excel()
+        {
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Revista");
+                var linha = 1;
+
+                worksheet.Cell(linha, 1).Value = "Revista";
+                worksheet.Cell(linha, 2).Value = "Aleph";
+                worksheet.Cell(linha, 3).Value = "IBICT";
+                worksheet.Cell(linha, 4).Value = "ISSN";
+                worksheet.Cell(linha, 5).Value = "Editor";
+
+                foreach (var revista
+                    in _context.Revista.Include(r => r.CdAquisicaoNavigation).Include(r => r.CdEditorNavigation).Include(r => r.CdPeriodicidadeNavigation).OrderBy(r => r.Titulo))
+                {
+                    linha++;
+                    worksheet.Cell(linha, 1).Value = revista.Titulo;
+                    worksheet.Cell(linha, 2).Value = revista.Aleph;
+                    worksheet.Cell(linha, 3).Value = revista.Ibict;
+                    worksheet.Cell(linha, 4).Value = revista.Issn;
+                    worksheet.Cell(linha, 5).Value = revista.CdEditorNavigation.NomeEditor;
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "Revista.xlsx");
+                }
+
+            }
+
         }
 
         // GET: Revistums/Delete/5

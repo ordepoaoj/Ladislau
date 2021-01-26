@@ -1,8 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using ClosedXML.Excel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -21,7 +22,7 @@ namespace Web20.Controllers
         {
             _context = context;
         }
-        
+      
         [HttpPost]
         
         public string Index(string search, bool notUsed)
@@ -133,9 +134,6 @@ namespace Web20.Controllers
             return View(editor);
         }
 
-        // POST: Editors/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,NomeEditor,Endereco,CodPais,Email,Telefone")] Editor editor)
@@ -181,16 +179,7 @@ namespace Web20.Controllers
                  var editor = await _context.Editors
                 .Include(e => e.CodPaisNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (editor == null)
-            {
-                return NotFound();
-            }
-
             return View(editor);
-            }
-            if (id == null)
-            {
-                return NotFound();
             }
             return RedirectToAction(nameof(Pendente), new {id = id });
 
@@ -200,6 +189,41 @@ namespace Web20.Controllers
         {
             var appDbContext = _context.Editors.Include(e => e.CodPaisNavigation).OrderBy(e => e.NomeEditor);
             return new ViewAsPdf(await appDbContext.ToListAsync());
+        }
+
+        public async Task<IActionResult> Excel ()
+        {
+            var appDbContext = _context.Editors.Include(e => e.CodPaisNavigation).OrderBy(e => e.NomeEditor);
+            
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Editor");
+                var linha = 1;
+
+                worksheet.Cell(linha, 1).Value = "Nome do Editor";
+                worksheet.Cell(linha, 2).Value = "Endereço";
+                worksheet.Cell(linha, 3).Value = "País / Região";
+
+                foreach (var editor in appDbContext)
+                {
+                    linha++;
+                    worksheet.Cell(linha, 1).Value = editor.NomeEditor;
+                    worksheet.Cell(linha, 2).Value = editor.Endereco;
+                    worksheet.Cell(linha, 3).Value = editor.CodPaisNavigation.NomePais;
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "Editor.xlsx");
+                }
+
+            }
+
         }
 
         // POST: Editors/Delete/5
@@ -217,8 +241,6 @@ namespace Web20.Controllers
         {
             return _context.Editors.Any(e => e.Id == id);
         }
-
-
 
     }
 }

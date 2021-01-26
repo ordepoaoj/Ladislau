@@ -20,7 +20,7 @@ namespace Web20.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("Web20ContextConnection")));
 
-                services.AddDefaultIdentity<Web20User>(options => options.SignIn.RequireConfirmedAccount = true)
+                services.AddDefaultIdentity<Web20User>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<Web20Context>();
             });
         }

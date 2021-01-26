@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using Web20.Models;
 using FluentValidation;
 using Rotativa.AspNetCore;
+using Microsoft.AspNetCore.Identity;
+using Web20.Areas.Identity.Data;
 
 namespace Web20
 {
@@ -27,12 +29,16 @@ namespace Web20
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("Web20ContextConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddControllersWithViews();
             
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,7 +72,6 @@ namespace Web20
             });
 
             RotativaConfiguration.Setup((Microsoft.AspNetCore.Hosting.IHostingEnvironment)env);
-
         }
     }
 }
