@@ -1,0 +1,281 @@
+﻿@model IEnumerable<Web20.Models.Revistum>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    IEnumerable<Revistum> bimestral = ViewData["Bimestral"] as IEnumerable<Revistum>;
+    IEnumerable<Revistum> trimestral = ViewData["Trimestral"] as IEnumerable<Revistum>;
+    IEnumerable<Revistum> quadrimestral = ViewData["Quadrimestral"] as IEnumerable<Revistum>;
+    IEnumerable<Revistum> semestral = ViewData["Semestral"] as IEnumerable<Revistum>;
+    IEnumerable<Revistum> anual = ViewData["Anual"] as IEnumerable<Revistum>;
+}
+
+<h1>Revistas com recebimento em atraso</h1>
+<br />
+<h2>Mensal</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Titulo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Chegada)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CdEditorNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CdPeriodicidadeNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td width="30%">
+                    @Html.DisplayFor(modelItem => item.Titulo)
+                </td>
+                <td width="15%">
+                    @Html.DisplayFor(modelItem => item.Chegada)
+                </td>
+                <td width="30%">
+                    @Html.DisplayFor(modelItem => item.CdEditorNavigation.NomeEditor)
+                </td>
+                <td width="15%">
+                    @Html.DisplayFor(modelItem => item.CdPeriodicidadeNavigation.TipoPeriodicidade)
+                </td>
+                <td width="10%">
+                    <a asp-controller="Revistums" asp-action="Edit" class="editar" asp-route-id="@item.Id" title="Editar">Edit</a>
+                    <a asp-controller="Revistums" asp-action="Details" class="detalhar" asp-route-id="@item.Id" title="Detalhe">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<h2> Bimestral</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Titulo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Chegada)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CdEditorNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CdPeriodicidadeNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var bimestre in bimestral)
+        {
+            <tr>
+                <td width="30%">
+                    @Html.DisplayFor(modelItem => bimestre.Titulo)
+                </td>
+                <td width="15%">
+                    @Html.DisplayFor(modelItem => bimestre.Chegada)
+                </td>
+                <td width="30%">
+                    @Html.DisplayFor(modelItem => bimestre.CdEditorNavigation.NomeEditor)
+                </td>
+                <td width="15%">
+                    @Html.DisplayFor(modelItem => bimestre.CdPeriodicidadeNavigation.TipoPeriodicidade)
+                </td>
+                <td width="10%">
+                    <a asp-controller="Revistums" asp-action="Edit" class="editar" asp-route-id="@bimestre.Id" title="Editar">Edit</a>
+                    <a asp-controller="Revistums" asp-action="Details" class="detalhar" asp-route-id="@bimestre.Id" title="Detalhe">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<h2> Trimestral</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Titulo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Chegada)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CdEditorNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CdPeriodicidadeNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var trimestre in bimestral)
+        {
+            <tr>
+                <td width="30%">
+                    @Html.DisplayFor(modelItem => trimestre.Titulo)
+                </td>
+                <td width="15%">
+                    @Html.DisplayFor(modelItem => trimestre.Chegada)
+                </td>
+                <td width="30%">
+                    @Html.DisplayFor(modelItem => trimestre.CdEditorNavigation.NomeEditor)
+                </td>
+                <td width="15%">
+                    @Html.DisplayFor(modelItem => trimestre.CdPeriodicidadeNavigation.TipoPeriodicidade)
+                </td>
+                <td width="10%">
+                    <a asp-controller="Revistums" asp-action="Edit" class="editar" asp-route-id="@trimestre.Id" title="Editar">Edit</a>
+                    <a asp-controller="Revistums" asp-action="Details" class="detalhar" asp-route-id="@trimestre.Id" title="Detalhe">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<h2> Quadrimestral</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Titulo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Chegada)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CdEditorNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CdPeriodicidadeNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var quadrimestre in quadrimestral)
+        {
+            <tr>
+                <td width="30%">
+                    @Html.DisplayFor(modelItem => quadrimestre.Titulo)
+                </td>
+                <td width="15%">
+                    @Html.DisplayFor(modelItem => quadrimestre.Chegada)
+                </td>
+                <td width="30%">
+                    @Html.DisplayFor(modelItem => quadrimestre.CdEditorNavigation.NomeEditor)
+                </td>
+                <td width="15%">
+                    @Html.DisplayFor(modelItem => quadrimestre.CdPeriodicidadeNavigation.TipoPeriodicidade)
+                </td>
+                <td width="10%">
+                    <a asp-controller="Revistums" asp-action="Edit" class="editar" asp-route-id="@quadrimestre.Id" title="Editar">Edit</a>
+                    <a asp-controller="Revistums" asp-action="Details" class="detalhar" asp-route-id="@quadrimestre.Id" title="Detalhe">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<h2> Semestral</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Titulo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Chegada)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CdEditorNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CdPeriodicidadeNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var semestre in semestral)
+        {
+            <tr>
+                <td width="30%">
+                    @Html.DisplayFor(modelItem => semestre.Titulo)
+                </td>
+                <td width="15%">
+                    @Html.DisplayFor(modelItem => semestre.Chegada)
+                </td>
+                <td width="30%">
+                    @Html.DisplayFor(modelItem => semestre.CdEditorNavigation.NomeEditor)
+                </td>
+                <td width="15%">
+                    @Html.DisplayFor(modelItem => semestre.CdPeriodicidadeNavigation.TipoPeriodicidade)
+                </td>
+                <td width="10%">
+                    <a asp-controller="Revistums" asp-action="Edit" class="editar" asp-route-id="@semestre.Id" title="Editar">Edit</a>
+                    <a asp-controller="Revistums" asp-action="Details" class="detalhar" asp-route-id="@semestre.Id" title="Detalhe">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<h2> Anual </h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Titulo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Chegada)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CdEditorNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CdPeriodicidadeNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ano in anual)
+        {
+            <tr>
+                <td width="30%">
+                    @Html.DisplayFor(modelItem => ano.Titulo)
+                </td>
+                <td width="15%">
+                    @Html.DisplayFor(modelItem => ano.Chegada)
+                </td>
+                <td width="30%">
+                    @Html.DisplayFor(modelItem => ano.CdEditorNavigation.NomeEditor)
+                </td>
+                <td width="15%">
+                    @Html.DisplayFor(modelItem => ano.CdPeriodicidadeNavigation.TipoPeriodicidade)
+                </td>
+                <td width="10%">
+                    <a asp-controller="Revistums" asp-action="Edit" class="editar" asp-route-id="@ano.Id" title="Editar">Edit</a>
+                    <a asp-controller="Revistums" asp-action="Details" class="detalhar" asp-route-id="@ano.Id" title="Detalhe">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -16,6 +16,7 @@ namespace Web20.Models
         public string Ibict { get; set; }
         public string Issn { get; set; }
         public bool Ativo { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? Chegada { get; set; }
         [Display (Name ="Aquisição")]
         public int? CdAquisicao { get; set; }

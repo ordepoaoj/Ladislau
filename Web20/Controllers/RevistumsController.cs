@@ -170,6 +170,8 @@ namespace Web20
                 worksheet.Cell(linha, 3).Value = "IBICT";
                 worksheet.Cell(linha, 4).Value = "ISSN";
                 worksheet.Cell(linha, 5).Value = "Editor";
+                worksheet.Cell(linha, 6).Value = "Aquisição";
+                worksheet.Cell(linha, 7).Value = "Periodicidade";
 
                 foreach (var revista
                     in _context.Revista.Include(r => r.CdAquisicaoNavigation).Include(r => r.CdEditorNavigation).Include(r => r.CdPeriodicidadeNavigation).OrderBy(r => r.Titulo))
@@ -180,6 +182,9 @@ namespace Web20
                     worksheet.Cell(linha, 3).Value = revista.Ibict;
                     worksheet.Cell(linha, 4).Value = revista.Issn;
                     worksheet.Cell(linha, 5).Value = revista.CdEditorNavigation.NomeEditor;
+                    worksheet.Cell(linha, 6).Value = revista.CdAquisicaoNavigation.TipoAquisicao;
+                    worksheet.Cell(linha, 7).Value = revista.CdPeriodicidadeNavigation.TipoPeriodicidade;
+
                 }
 
                 using (var stream = new MemoryStream())
