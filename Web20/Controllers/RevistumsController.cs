@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ClosedXML.Excel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ using Web20.Models;
 
 namespace Web20
 {
+    [Authorize]
     public class RevistumsController : Controller
     {
         private readonly AppDbContext _context;
@@ -84,16 +86,20 @@ namespace Web20
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Aleph,Titulo,Ibict,Issn,Ativo,Chegada,CdAquisicao,CdEditor,CdPeriodicidade")] Revistum revistum)
         {
-            if (ModelState.IsValid)
+            UniqueRevistum unica = new UniqueRevistum(_context);
+            if (ModelState.IsValid && unica.verificar(revistum.Titulo.ToString(), revistum.Ibict.ToString(), revistum.Issn.ToString(), revistum.Aleph.ToString()) == false)
             {
                 _context.Add(revistum);
                 await _context.SaveChangesAsync();
+                TempData["SucessoRevista"] = "A revista " + revistum.Titulo.ToString() + " foi cadastrado com sucesso.";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CdAquisicao"] = new SelectList(_context.Aquisicaos, "Id", "TipoAquisicao", revistum.CdAquisicao);
             ViewData["CdEditor"] = new SelectList(_context.Editors.OrderBy(r => r.NomeEditor), "Id", "NomeEditor", revistum.CdEditor);
             ViewData["CdPeriodicidade"] = new SelectList(_context.Periodicidades, "Id", "TipoPeriodicidade", revistum.CdPeriodicidade);
-            return View(revistum);
+
+            TempData["ErroRevista"] = "A revista contem dados de outras revistas.";
+            return View();
         }
 
         // GET: Revistums/Edit/5

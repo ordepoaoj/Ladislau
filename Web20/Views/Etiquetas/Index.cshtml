@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Web20.Models.Editor>
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Etiquetas Editores</h1>
+
+<p>
+    <a value="PDF" asp-action="PDF" class="btn btn-danger"> PDF </a>
+</p>
+
+
+@foreach (var item in Model)
+{
+    <p>
+        <b>Instituição: </b> <a asp-controller="Editors" asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.NomeEditor) </a>
+        <br />
+        <b>Endereço: </b>@Html.DisplayFor(modelItem => item.Endereco)
+        <br />
+        @Html.DisplayFor(modelItem => item.CodPaisNavigation.NomePais)
+    </p>
+    <br />
+}

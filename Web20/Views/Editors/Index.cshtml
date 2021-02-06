@@ -7,15 +7,22 @@
 
 <h1>Editores</h1>
 
+@if ((string)TempData["Sucesso"] != null)
+{
+    <div class="alert alert-success">
+        <strong>@TempData["Sucesso"]</strong>
+    </div>
+}
+
 <p>
     <a asp-action="Create">Novo</a>
 </p>
 
 
-    <p>
-        <a value="PDF" asp-action="PDF" class="btn btn-danger"> PDF </a>
-        <a value="Excel" asp-action="Excel" class="btn btn-success"> Excel </a>
-    </p>
+<p>
+    <a value="PDF" asp-action="PDF" class="btn btn-danger"> PDF </a>
+    <a value="Excel" asp-action="Excel" class="btn btn-success"> Excel </a>
+</p>
 
 
 <form asp-controller="Editors" asp-action="Index" method="get">
@@ -58,8 +65,8 @@
                     <a asp-action="Edit" asp-route-id="@item.Id" class="editar" title="Editar">Editar</a>
                     <a asp-action="Details" asp-route-id="@item.Id" class="detalhar" title="Detalhar">Detalhe</a>
                     <a asp-action="Delete" asp-route-id="@item.Id" class="apagar" title="Apagar" asp-controller="Editors">Apagar</a>
-                    
-                        
+
+
                 </td>
             </tr>
         }

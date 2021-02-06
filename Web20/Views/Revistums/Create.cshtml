@@ -8,6 +8,13 @@
 <h1>Novo</h1>
 
 <h4>Revista</h4>
+
+@if ((string)TempData["ErroRevista"] != null)
+{
+    <div class="alert alert-danger">
+        <strong>@TempData["ErroRevista"]</strong>
+    </div>
+}
 <hr />
 <div class="row">
     <div class="col-md-4">

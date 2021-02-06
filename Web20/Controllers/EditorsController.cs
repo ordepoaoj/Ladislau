@@ -111,6 +111,7 @@ namespace Web20.Controllers
             {
                 _context.Add(editor);
                 await _context.SaveChangesAsync();
+                TempData["Sucesso"] = "O Editor " + editor.NomeEditor.ToString() + " foi cadastrado com sucesso.";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CodPais"] = new SelectList(_context.PaisEditors, "Id", "NomePais", editor.CodPais);

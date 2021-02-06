@@ -8,6 +8,13 @@
 
 <h1>Revistas</h1>
 
+@if ((string)TempData["SucessoRevista"] != null)
+{
+    <div class="alert alert-success">
+        <strong>@TempData["SucessoRevista"]</strong>
+    </div>
+}
+
 <p>
     <a asp-action="Create">Novo</a>
 </p>

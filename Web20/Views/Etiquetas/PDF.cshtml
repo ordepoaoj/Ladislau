@@ -1,0 +1,22 @@
+﻿@model IEnumerable<Web20.Models.Editor>
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<p align="center"><h2>Etiquetas Editores</h2></p>
+
+<br />
+
+@foreach (var item in Model)
+{
+    <p>
+        <a asp-controller="Editors" asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.NomeEditor) </a>
+        <br />
+        @Html.DisplayFor(modelItem => item.Endereco)
+        <br />
+        @Html.DisplayFor(modelItem => item.CodPaisNavigation.NomePais) / @Html.DisplayFor(modelItem => item.CodPaisNavigation.CodContinenteNavigation.NomeContinente)
+    </p>
+    <br />
+}
