@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Configuration;
 using System.Data.SqlClient;
 
+
 namespace Web20.Models
 {
     public class UniqueRevistum

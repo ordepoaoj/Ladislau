@@ -22,6 +22,8 @@ namespace Web20.Models
         [Required]
         [Display(Name = "Endereço")]
         public string Endereco { get; set; }
+        [Display(Name = "Código Postal")]
+        public string CodPostal { get; set; }
         [Display(Name = "País do Editor")]
         public int? CodPais { get; set; }
         public string Email { get; set; }

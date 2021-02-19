@@ -22,9 +22,16 @@
                 <input asp-for="Endereco" class="form-control" />
                 <span asp-validation-for="Endereco" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label asp-for="CodPostal" class="control-label"></label>
+                <input asp-for="CodPostal" class="form-control" />
+                <span asp-validation-for="CodPostal" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <label asp-for="CodPaisNavigation" class="control-label"></label>
-                <select asp-for="CodPaisNavigation.NomePais" class="form-control" asp-items="ViewBag.CodPais"></select>
+                <select asp-for="CodPais" class="form-control" asp-items="ViewBag.CodPais"></select>
                 <span asp-validation-for="CodPais" class="text-danger"></span>
             </div>
             <div class="form-group">

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-
 #nullable disable
 
 namespace Web20.Models

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Web20.Migrations.AppDb
 {
-    public partial class spCobranca : Migration
+    public partial class _17022021 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

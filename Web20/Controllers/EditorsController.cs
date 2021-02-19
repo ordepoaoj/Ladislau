@@ -55,7 +55,6 @@ namespace Web20.Controllers
                 return NotFound();
             }
 
-            EditorIndex indice = new EditorIndex();
             var editor = await _context.Editors
                 .Include(e => e.Revista)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -105,7 +104,7 @@ namespace Web20.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,NomeEditor,Endereco,CodPais,Email,Telefone")] Editor editor)
+        public async Task<IActionResult> Create([Bind("Id,NomeEditor,Endereco,CodPais,CodPostal,Email,Telefone")] Editor editor)
         {
             if (ModelState.IsValid)
             {
@@ -121,23 +120,25 @@ namespace Web20.Controllers
         // GET: Editors/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            
             if (id == null)
             {
                 return NotFound();
             }
 
             var editor = await _context.Editors.FindAsync(id);
+            ViewData["CodPais"] = new SelectList(_context.PaisEditors, "Id", "NomePais", editor.CodPais);
             if (editor == null)
             {
                 return NotFound();
             }
-            ViewData["CodPais"] = new SelectList(_context.PaisEditors, "Id", "NomePais", editor.CodPais).OrderBy(e => editor.CodPaisNavigation.NomePais);
+            
             return View(editor);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,NomeEditor,Endereco,CodPais,Email,Telefone")] Editor editor)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,NomeEditor,Endereco,CodPostal,CodPais,Email,Telefone")] Editor editor)
         {
             if (id != editor.Id)
             {

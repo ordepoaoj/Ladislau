@@ -10,8 +10,8 @@ using Web20.Models;
 namespace Web20.Migrations.AppDb
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210129161415_spCobranca")]
-    partial class spCobranca
+    [Migration("20210217195724_17022021")]
+    partial class _17022021
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

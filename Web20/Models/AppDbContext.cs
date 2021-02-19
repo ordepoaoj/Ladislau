@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Configuration;
+using Microsoft.IdentityModel.Protocols;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.IdentityModel.Protocols;
+using System.Configuration;
 
 #nullable disable
 
@@ -43,14 +43,13 @@ namespace Web20.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-
-                optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["DefaultConnextion"].ConnectionString);
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Web20;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
             modelBuilder.Entity<Aquisicao>(entity =>
@@ -177,6 +176,8 @@ namespace Web20.Models
 
                 entity.Property(e => e.CodPais).HasColumnName("Cod_Pais");
 
+                entity.Property(e => e.CodPostal).HasMaxLength(30);
+
                 entity.Property(e => e.Email)
                     .HasMaxLength(50)
                     .IsUnicode(false);
@@ -196,6 +197,7 @@ namespace Web20.Models
                 entity.HasOne(d => d.CodPaisNavigation)
                     .WithMany(p => p.Editors)
                     .HasForeignKey(d => d.CodPais)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_pais_Editor");
             });
 
