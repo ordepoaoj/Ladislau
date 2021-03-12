@@ -8,6 +8,13 @@
 
 <h4>Editor</h4>
 <hr />
+
+@if ((string)TempData["ErroEditor"] != null)
+{
+    <div class="alert alert-danger">
+        <strong>@TempData["ErroEditor"]</strong>
+    </div>
+}
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">

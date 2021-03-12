@@ -106,7 +106,8 @@ namespace Web20.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,NomeEditor,Endereco,CodPais,CodPostal,Email,Telefone")] Editor editor)
         {
-            if (ModelState.IsValid)
+            UniqueEditor editorRepetido = new UniqueEditor(_context);
+            if (ModelState.IsValid && editorRepetido.verificar(editor.NomeEditor.ToString()) == false)
             {
                 _context.Add(editor);
                 await _context.SaveChangesAsync();
@@ -114,6 +115,7 @@ namespace Web20.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CodPais"] = new SelectList(_context.PaisEditors, "Id", "NomePais", editor.CodPais);
+            TempData["ErroEditor"] = "O Editor " + editor.NomeEditor.ToString() + " já foi cadastrado antes.";
             return View(editor);
         }
 
@@ -140,6 +142,7 @@ namespace Web20.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,NomeEditor,Endereco,CodPostal,CodPais,Email,Telefone")] Editor editor)
         {
+            UniqueEditor editorCadastrador = new UniqueEditor(_context);
             if (id != editor.Id)
             {
                 return NotFound();
@@ -149,6 +152,7 @@ namespace Web20.Controllers
             {
                 try
                 {
+
                     _context.Update(editor);
                     await _context.SaveChangesAsync();
                 }
