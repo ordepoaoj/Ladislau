@@ -23,9 +23,9 @@ namespace Web20.Models
 
             if(lista.Count() > 0)
             {
-                return true;
+                return false;
             }          
-            return false;
+            return true;
         }
     }
 }

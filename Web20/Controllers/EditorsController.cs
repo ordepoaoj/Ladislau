@@ -107,7 +107,7 @@ namespace Web20.Controllers
         public async Task<IActionResult> Create([Bind("Id,NomeEditor,Endereco,CodPais,CodPostal,Email,Telefone")] Editor editor)
         {
             UniqueEditor editorRepetido = new UniqueEditor(_context);
-            if (ModelState.IsValid && editorRepetido.verificar(editor.NomeEditor.ToString()) == false)
+            if (ModelState.IsValid && editorRepetido.verificar(editor.NomeEditor.ToString()) == true)
             {
                 _context.Add(editor);
                 await _context.SaveChangesAsync();
