@@ -1,0 +1,175 @@
+﻿@model string[]
+
+
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    IEnumerable<PaisEditor> rnpaisese = ViewData["rnPais"] as IEnumerable<PaisEditor>;
+}
+
+<p align="center"><h1> Relatório Gerencial</h1></p>
+<p>
+    <a value="PDF" asp-action="PDF" class="btn btn-danger"> PDF </a>
+</p>
+
+<h3>Situação das Revistas cadastradas</h3>
+<p>
+    Foram cadastradas até o momento <b>@ViewData["nRevista"] </b> revistas, desde a implantação do sistema Ladislau. Dividas em:
+    <ul>
+        <li><b>@ViewData["rBrasileiras"] </b> revistas encaminhadas pelos <b>@ViewData["eBrasil"] </b> editores Brasileiros <br /></li>
+        <li><b> @ViewData["rAmerica"] </b> revistas encaminhadas pelos <b>@ViewData["eAmerica"] </b> editores das três Americas com a excessão do Brasil.<br /></li>
+        <li><b>@ViewData["rEuropa"]</b> revistas encaminhadas pelos <b>@ViewData["eEuropa"] </b> editores Europeus <br /></li>
+        <li><b>@ViewData["rAsia"]</b> revistas encaminhadas pelos <b>@ViewData["eAsia"] </b> editores Asiáticos <br /></li>
+        <li><b>@ViewData["rAfrica"]</b> revistas encaminhadas pelos <b>@ViewData["eAfrica"] </b> editores Africanos <br /></li>
+        <li><b>@ViewData["rOceania"]</b> revistas encaminhadas pelos <b>@ViewData["eOceania"] </b> editores da Oceania <br /></li>
+    </ul>
+</p>
+<div class="w-50 p-3">
+    <div id="totalpiechart" style="height: 500px;"></div>
+</div>
+
+<div id="regions_div" style="width: 900px; height: 500px;"></div>
+
+<h3>Revista mais antiga</h3>
+<p>
+    A revista mais antiga cadastrada até o momento é <b>@ViewData["rAntiga"]</b> do editor <b>@ViewData["erAntiga"]</b> com a aquisição no dia <b>@string.Format("{0:dd/MM/yyyy}", ViewData["drAntiga"])</b>,<br />
+    Está revista possui periodicidade <b>@ViewData["prAntiga"]</b> obtida através de <b>@ViewData["aqAntiga"]</b>  desde esta data sem nenhuma atualização.
+</p>
+
+<h3>Revista mais nova</h3>
+<p>
+    A revista mais antiga cadastrada até o momento é <b>@ViewData["rNova"]</b> do editor <b>@ViewData["erNova"]</b> com a aquisição no dia <b>@string.Format("{0:dd/MM/yyyy}", ViewData["drNova"])</b>,<br />
+    Está revista possui periodicidade <b>@ViewData["prNova"]</b> obtida através de <b>@ViewData["aqNova"]</b>  desde esta data sem nenhuma atualização.
+</p>
+<h3>Perfil das aquisições</h3>
+<p>
+    Foram obtidas até o momento <b>@ViewData["aqCompra"]</b> por meio de compra, <b>@ViewData["aqDoacao"]</b> por meio de doações e <b>@ViewData["aqPermuta"]</b> por meio de permuta.
+</p>
+<div class="w-50 p-3">
+    <div id="aquisicaopiechart" style="height: 500px;"></div>
+</div>
+
+<h3>Perfil de recebimento das revistas</h3>
+<p>
+    Analisando quanto a data de recebimento das revistas temos a seguinte situação:
+    <ul>
+        <li><b>@ViewData["rAno"]</b> revistas que chegaram há menos de 1 ano</li>
+        <li><b>@ViewData["r1Ano"]</b> revistas que chegaram entre 1 e 2 anos</li>
+        <li><b>@ViewData["r2Ano"]</b> revistas que chegaram entre 2 e 3 anos</li>
+        <li><b>@ViewData["r3Ano"]</b> revistas que chegaram há 3 anos ou mais</li>
+    </ul>
+
+</p>
+
+<div class="w-50 p-3">
+    <div id="curve_chart" style="height: 500px;"></div>
+</div>
+
+@foreach (string pais in Model) {@pais}
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Brasil',     @ViewData["rBrasileiras"]],
+          ['America',    @ViewData["rAmerica"]],
+          ['Europa',  @ViewData["rEuropa"]],
+          ['Asia', @ViewData["rAsia"]],
+          ['Africa', @ViewData["rAfrica"]],
+          ['Oceania', @ViewData["rOceania"]]
+        ]);
+
+        var options = {
+            title: '',
+
+          };
+
+        var chart = new google.visualization.PieChart(document.getElementById('totalpiechart'));
+
+        chart.draw(data, options);
+      }
+</script>
+
+<script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Compra',     @ViewData["aqCompra"]],
+          ['Doação',    @ViewData["aqDoacao"]],
+          ['Permuta',  @ViewData["aqPermuta"]],
+        ]);
+
+        var options = {
+            title: '',
+
+          };
+
+        var chart = new google.visualization.PieChart(document.getElementById('aquisicaopiechart'));
+
+        chart.draw(data, options);
+      }
+</script>
+
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['Tempo', 'Revistas'],
+            ['3 anos ou mais', @ViewData["r3Ano"]],
+            ['2 a 3 anos', @ViewData["r2Ano"]],
+            ['1 a 2 anos', @ViewData["r1Ano"]],
+            ['Até 1 ano', @ViewData["rAno"]]
+        ]);
+
+        var options = {
+            title: '',
+            curveType: 'function',
+            legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
+    }
+</script>
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', {
+        'packages': ['geochart'],
+        // Note: you will need to get a mapsApiKey for your project.
+        // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+        'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
+    });
+    google.charts.setOnLoadCallback(drawRegionsMap);
+
+    function drawRegionsMap() {
+        var data = google.visualization.arrayToDataTable([
+            @foreach (string pais in Model) {@pais}
+
+        ]);
+
+        var options = {};
+
+        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+        chart.draw(data, options);
+    }
+</script>

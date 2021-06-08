@@ -11,12 +11,14 @@
 
 @foreach (var item in Model)
 {
-    <p>
-        <a asp-controller="Editors" asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.NomeEditor) </a>
-        <br />
-        @Html.DisplayFor(modelItem => item.Endereco)
-        <br />
-        @Html.DisplayFor(modelItem => item.CodPaisNavigation.NomePais) / @Html.DisplayFor(modelItem => item.CodPaisNavigation.CodContinenteNavigation.NomeContinente)
-    </p>
+<p>
+    <a asp-controller="Editors" asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.NomeEditor) </a>
+    <br />
+    @Html.DisplayFor(modelItem => item.Endereco)
+    <br />
+    <b>Código Postal</b> @Html.DisplayFor(modelItem => item.CodPostal)
+    <br />
+    @Html.DisplayFor(modelItem => item.CodPaisNavigation.NomePais) / @Html.DisplayFor(modelItem => item.CodPaisNavigation.CodContinenteNavigation.NomeContinente)
+</p>
     <br />
 }
