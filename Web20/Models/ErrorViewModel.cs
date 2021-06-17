@@ -1,5 +1,3 @@
-using System;
-
 namespace Web20.Models
 {
     public class ErrorViewModel

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Configuration;
-using System.Data.SqlClient;
 
 
 namespace Web20.Models
@@ -26,13 +22,18 @@ namespace Web20.Models
             Revista = _consulta.Revista.Where(r => r.Titulo == Titulo || r.Ibict == IBICT || r.Issn == ISSN || r.Aleph == Aleph);
 
             consultas = Revista.ToList();
-
             
             if(consultas.Count > 0)
             {
                 return true;
             }
             return false;
+        }
+
+        public string nome(string Titulo, string IBICT, string ISSN, string Aleph)
+        {
+            var Revista = _consulta.Revista.Where(r => r.Titulo == Titulo || r.Ibict == IBICT || r.Issn == ISSN || r.Aleph == Aleph).First();
+            return Revista.Titulo.ToString();
         }
     }
 }

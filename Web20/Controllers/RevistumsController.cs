@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -98,7 +97,7 @@ namespace Web20
             ViewData["CdEditor"] = new SelectList(_context.Editors.OrderBy(r => r.NomeEditor), "Id", "NomeEditor", revistum.CdEditor);
             ViewData["CdPeriodicidade"] = new SelectList(_context.Periodicidades, "Id", "TipoPeriodicidade", revistum.CdPeriodicidade);
 
-            TempData["ErroRevista"] = "A revista contem dados de outras revistas.";
+            TempData["ErroRevista"] = "A revista " + revistum.Titulo.ToString() +  " contem dados da revista " + unica.nome(revistum.Titulo.ToString(), revistum.Ibict.ToString(), revistum.Issn.ToString(), revistum.Aleph.ToString()) + "." ;
             return View();
         }
 
