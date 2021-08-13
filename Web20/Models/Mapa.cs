@@ -23,7 +23,9 @@ namespace Web20.Models
             string traduzirReinoUnido = traduzirFranca.Replace("Reino Unido", "United Kingdom");
             string traduzirsuica = traduzirReinoUnido.Replace("Suica", "Switzerland");
             string traduzirsuecia = traduzirsuica.Replace("Suecia", "Sweden");
-            return traduzirsuecia;
+            string traduziritalia = traduzirsuecia.Replace("Italia", "Italy");
+            string traduzirbrasil = traduziritalia.Replace("Brasil", "Brazil");
+            return traduzirbrasil;
         }
 
     }

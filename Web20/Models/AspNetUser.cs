@@ -13,6 +13,7 @@ namespace Web20.Models
             AspNetUserLogins = new HashSet<AspNetUserLogin>();
             AspNetUserRoles = new HashSet<AspNetUserRole>();
             AspNetUserTokens = new HashSet<AspNetUserToken>();
+            Atualizacaos = new HashSet<Atualizacao>();
         }
 
         public string Id { get; set; }
@@ -37,5 +38,6 @@ namespace Web20.Models
         public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual ICollection<AspNetUserRole> AspNetUserRoles { get; set; }
         public virtual ICollection<AspNetUserToken> AspNetUserTokens { get; set; }
+        public virtual ICollection<Atualizacao> Atualizacaos { get; set; }
     }
 }

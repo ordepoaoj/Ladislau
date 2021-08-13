@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>f456f9f9-d687-4e28-9c50-ee31c3211025</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,22 +11,57 @@
 
   <ItemGroup>
     <None Include="bundleconfig.json" />
+    <None Include="Views\Admin\CriarRegra.cshtml" />
+    <None Include="Views\Admin\CriarRegraUsuario.cshtml" />
+    <None Include="Views\Editors\Create.cshtml" />
+    <None Include="Views\Editors\Delete.cshtml" />
+    <None Include="Views\Editors\Details.cshtml" />
+    <None Include="Views\Editors\Edit.cshtml" />
+    <None Include="Views\Editors\Index.cshtml" />
+    <None Include="Views\Editors\PDF.cshtml" />
+    <None Include="Views\Editors\Pendente.cshtml" />
+    <None Include="Views\Etiquetas\Index.cshtml" />
+    <None Include="Views\Etiquetas\PDF.cshtml" />
+    <None Include="Views\Home\Index.cshtml" />
+    <None Include="Views\Home\Privacy.cshtml" />
+    <None Include="Views\Pendencia\Index.cshtml" />
+    <None Include="Views\Pendencia\PDF.cshtml" />
+    <None Include="Views\Publicacoes\Create.cshtml" />
+    <None Include="Views\Publicacoes\Delete.cshtml" />
+    <None Include="Views\Publicacoes\Details.cshtml" />
+    <None Include="Views\Publicacoes\Edit.cshtml" />
+    <None Include="Views\Publicacoes\Index.cshtml" />
+    <None Include="Views\Relatorios\Index.cshtml" />
+    <None Include="Views\Relatorios\PDF.cshtml" />
+    <None Include="Views\Revistums\Create.cshtml" />
+    <None Include="Views\Revistums\Delete.cshtml" />
+    <None Include="Views\Revistums\Details.cshtml" />
+    <None Include="Views\Revistums\Edit.cshtml" />
+    <None Include="Views\Revistums\Index.cshtml" />
+    <None Include="Views\Revistums\PDF.cshtml" />
+    <None Include="Views\Shared\Error.cshtml" />
+    <None Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Views\Shared\_LoginPartial.cshtml" />
+    <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <None Include="Views\_ViewImports.cshtml" />
+    <None Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.95.4" />
     <PackageReference Include="FluentValidation" Version="9.3.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.4">
+    <PackageReference Include="MailKit" Version="2.13.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.6" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.4">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.6">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -46,7 +82,6 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
-    <Folder Include="Views\Shared\" />
     <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\Images\" />
     <Folder Include="wwwroot\js\" />
@@ -58,5 +93,7 @@
     <Folder Include="wwwroot\lib\jquery\" />
     <Folder Include="wwwroot\lib\jquery\dist\" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

@@ -4,6 +4,9 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{ 
+    IEnumerable<Atualizacao> atualizacaos = ViewData["Atualizacao"] as IEnumerable<Atualizacao>;
+}
 
 <h1>Revista</h1>
 
@@ -65,8 +68,42 @@
             @Html.DisplayFor(model => model.CdPeriodicidadeNavigation.TipoPeriodicidade)
         </dd>
     </dl>
+
+
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Data da Atualização
+                </th>
+                <th>
+                    Data da Chegada
+                </th>
+                <th>
+                    Usuário
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Atualizacao item in atualizacaos)
+            {
+            <tr>
+                <td width="25%">
+                    @Html.DisplayFor(modelItem => item.DtAtualizacao)
+                </td>
+                <td width="25%">
+                    @Html.DisplayFor(modelItem => item.DtChegada)
+                </td>
+                <td width="50%">
+                    @Html.DisplayFor(modelItem => item.CdUsuarioNavigation.FirstName)
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
+    <a asp-action="Index">Voltar</a>
 </div>

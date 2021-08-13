@@ -6,11 +6,12 @@ using System.Text.Encodings.Web;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Web20.Areas.Identity.Data;
+using Web20.Services;
 
 namespace Web20.Areas.Identity.Pages.Account.Manage
 {
@@ -44,7 +45,7 @@ namespace Web20.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Required]
+            [Required (ErrorMessage ="O Email é obrigatório")]
             [EmailAddress]
             [Display(Name = "Novo Email")]
             public string NewEmail { get; set; }
@@ -103,13 +104,13 @@ namespace Web20.Areas.Identity.Pages.Account.Manage
                 await _emailSender.SendEmailAsync(
                     Input.NewEmail,
                     "Confirm your email",
-                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    $"Favor confirmar o seu e-mail <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Clique aqui</a>.", $"Favor confirmar o seu e-mail <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Clique aqui</a>.");
 
-                StatusMessage = "Confirmation link to change email sent. Please check your email.";
+                StatusMessage = "Confirmação enviada, favor verificar o seu e-mail.";
                 return RedirectToPage();
             }
 
-            StatusMessage = "Your email is unchanged.";
+            StatusMessage = "Seu email não foi alterado.";
             return RedirectToPage();
         }
 
@@ -139,7 +140,7 @@ namespace Web20.Areas.Identity.Pages.Account.Manage
             await _emailSender.SendEmailAsync(
                 email,
                 "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                $"Favor confirmar seu email <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clique aqui</a>.", $"Favor confirmar seu email <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clique aqui</a>.");
 
             StatusMessage = "Verification email sent. Please check your email.";
             return RedirectToPage();

@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
 
 #nullable disable
@@ -24,6 +26,7 @@ namespace Web20.Models
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
+        public virtual DbSet<Atualizacao> Atualizacaos { get; set; }
         public virtual DbSet<ContinenteEditor> ContinenteEditors { get; set; }
         public virtual DbSet<Editor> Editors { get; set; }
         public virtual DbSet<MigrationHistory> MigrationHistories { get; set; }
@@ -36,13 +39,13 @@ namespace Web20.Models
         public virtual DbSet<Revistum> Revista { get; set; }
         public virtual DbSet<View> Views { get; set; }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration configuration { get; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(Configuration.GetConnectionString("Web20ContextConnection"));
+                optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnextion"));
             }
         }
 
@@ -153,6 +156,38 @@ namespace Web20.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AspNetUserTokens)
                     .HasForeignKey(d => d.UserId);
+            });
+
+            modelBuilder.Entity<Atualizacao>(entity =>
+            {
+                entity.ToTable("Atualizacao");
+
+                entity.Property(e => e.CdRevista).HasColumnName("cd_Revista");
+
+                entity.Property(e => e.CdUsuario)
+                    .IsRequired()
+                    .HasMaxLength(450)
+                    .HasColumnName("cd_Usuario");
+
+                entity.Property(e => e.DtAtualizacao)
+                    .HasColumnType("date")
+                    .HasColumnName("dt_Atualizacao");
+
+                entity.Property(e => e.DtChegada)
+                    .HasColumnType("date")
+                    .HasColumnName("dt_Chegada");
+
+                entity.HasOne(d => d.CdRevistaNavigation)
+                    .WithMany(p => p.Atualizacaos)
+                    .HasForeignKey(d => d.CdRevista)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Atualizacao_ToRevista");
+
+                entity.HasOne(d => d.CdUsuarioNavigation)
+                    .WithMany(p => p.Atualizacaos)
+                    .HasForeignKey(d => d.CdUsuario)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Atualizacao_ToUser");
             });
 
             modelBuilder.Entity<ContinenteEditor>(entity =>

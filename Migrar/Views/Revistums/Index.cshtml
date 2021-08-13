@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Web20.Models.Revistum>
+
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Revistas</h1>
+
+@if ((string)TempData["SucessoRevista"] != null)
+{
+    <div class="alert alert-success">
+        <strong>@TempData["SucessoRevista"]</strong>
+    </div>
+}
+
+<p>
+    <a asp-action="Create">Novo</a>
+</p>
+
+<p>
+    <a value="PDF" asp-action="PDF" class="btn btn-danger"> PDF </a>
+    <a value="Excel" asp-action="Excel" class="btn btn-success"> Excel </a>
+</p>
+
+
+<form asp-controller="Revistums" asp-action="Index" method="get">
+    <p>
+        <input type="text" name="Search" class="form-control" placeholder="Nome da Revista, ISSN ou Aleph">
+        <input type="submit" value="Pesquisar" class="btn btn-info" />
+
+    </p>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Titulo
+            </th>
+            <th>
+                Aleph
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ibict)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Issn)
+            </th>
+            <th>
+                Editor
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="width:38%">
+                    @Html.DisplayFor(modelItem => item.Titulo)
+
+                </td>
+                <td style="width:10%">
+                    @Html.DisplayFor(modelItem => item.Aleph)
+                </td>
+                <td style="width:10%">
+                    @Html.DisplayFor(modelItem => item.Ibict)
+                </td>
+                <td style="width:10%">
+                    @Html.DisplayFor(modelItem => item.Issn)
+                </td>
+                <td style="width:22%">
+                    @Html.DisplayFor(modelItem => item.CdEditorNavigation.NomeEditor)
+                </td>
+                <td style="width:10%">
+                    <a asp-action="Edit" class="editar" asp-route-id="@item.Id" title="Editar">Edit</a>
+                    <a asp-action="Details" class="detalhar" asp-route-id="@item.Id" title="Detalhe">Details</a>
+                    <a asp-action="Delete" class="apagar" asp-route-id="@item.Id" title="Apagar">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

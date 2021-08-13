@@ -1,18 +1,22 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Linq.Dynamic.Core;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using ClosedXML.Excel;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Rotativa.AspNetCore;
+using Web20.Areas.Identity.Data;
 using Web20.Models;
 
 namespace Web20
 {
-    [Authorize]
+    [Authorize(Roles = "Administrador, Usuario, Editor, Coordenador")]
     public class RevistumsController : Controller
     {
         private readonly AppDbContext _context;
@@ -28,7 +32,6 @@ namespace Web20
             return "From [HttpGet]Index: filter on " + search;
         }
 
-        // GET: Revistums
         public async Task<IActionResult> Index(string search)
         {
 #warning Este método contem uma parte de código não elegante. A fim de evitar a consulta e resposta de todos os resultados de maneira desnecessária -- Não esquecer de buscar uma solução mais elegante para o problema
@@ -48,7 +51,6 @@ namespace Web20
             return View(await appDbContext.ToListAsync());
         }
 
-        // GET: Revistums/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -66,10 +68,12 @@ namespace Web20
                 return NotFound();
             }
 
+            ViewData["Atualizacao"] = _context.Atualizacaos.Where(a => a.CdRevista == id).Include(a => a.CdUsuarioNavigation).OrderByDescending(a => a.DtAtualizacao).OrderByDescending(a => a.DtChegada);
+
             return View(revistum);
         }
 
-        // GET: Revistums/Create
+        [Authorize(Roles = "Administrador, Editor, Coordenador")]
         public IActionResult Create()
         {
             ViewData["CdAquisicao"] = new SelectList(_context.Aquisicaos, "Id", "TipoAquisicao");
@@ -78,18 +82,35 @@ namespace Web20
             return View();
         }
 
-        // POST: Revistums/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador, Editor, Coordenador")]
         public async Task<IActionResult> Create([Bind("Id,Aleph,Titulo,Ibict,Issn,Ativo,Chegada,CdAquisicao,CdEditor,CdPeriodicidade")] Revistum revistum)
         {
+            if (revistum.CdPeriodicidade == null || revistum.CdEditor == null || revistum.CdAquisicao == null)
+            {
+                TempData["ErroRevista"] = "A revista está com dados incompletos.";
+                return View();
+            }
+
             UniqueRevistum unica = new UniqueRevistum(_context);
             if (ModelState.IsValid && unica.verificar(revistum.Titulo.ToString(), revistum.Ibict.ToString(), revistum.Issn.ToString(), revistum.Aleph.ToString()) == false)
             {
+                
                 _context.Add(revistum);
                 await _context.SaveChangesAsync();
+                               
+                Atualizacao atualizacao = new Atualizacao()
+                {
+                    CdRevista = revistum.Id,
+                    CdUsuario = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                    DtChegada = revistum.Chegada,
+                    DtAtualizacao = DateTime.Today
+                };
+
+                _context.Atualizacaos.Add(atualizacao);
+                await _context.SaveChangesAsync();
+
                 TempData["SucessoRevista"] = "A revista " + revistum.Titulo.ToString() + " foi cadastrado com sucesso.";
                 return RedirectToAction(nameof(Index));
             }
@@ -101,7 +122,7 @@ namespace Web20
             return View();
         }
 
-        // GET: Revistums/Edit/5
+        [Authorize(Roles = "Administrador, Editor, Coordenador")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -120,11 +141,9 @@ namespace Web20
             return View(revistum);
         }
 
-        // POST: Revistums/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador, Editor, Coordenador")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Aleph,Titulo,Ibict,Issn,Ativo,Chegada,CdAquisicao,CdEditor,CdPeriodicidade")] Revistum revistum)
         {
             if (id != revistum.Id)
@@ -138,6 +157,18 @@ namespace Web20
                 {
                     _context.Update(revistum);
                     await _context.SaveChangesAsync();
+
+                    Atualizacao atualizacao = new Atualizacao()
+                    {
+                        CdRevista = revistum.Id,
+                        CdUsuario = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                        DtChegada = revistum.Chegada,
+                        DtAtualizacao = DateTime.Today
+                    };
+
+                    _context.Atualizacaos.Add(atualizacao);
+                    await _context.SaveChangesAsync();
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -177,10 +208,16 @@ namespace Web20
                 worksheet.Cell(linha, 5).Value = "Editor";
                 worksheet.Cell(linha, 6).Value = "Aquisição";
                 worksheet.Cell(linha, 7).Value = "Periodicidade";
+                worksheet.Cell(linha, 8).Value = "Ultima Chegada";
+                
+
+                
 
                 foreach (var revista
                     in _context.Revista.Include(r => r.CdAquisicaoNavigation).Include(r => r.CdEditorNavigation).Include(r => r.CdPeriodicidadeNavigation).OrderBy(r => r.Titulo))
                 {
+                    
+
                     linha++;
                     worksheet.Cell(linha, 1).Value = revista.Titulo;
                     worksheet.Cell(linha, 2).Value = revista.Aleph;
@@ -189,7 +226,9 @@ namespace Web20
                     worksheet.Cell(linha, 5).Value = revista.CdEditorNavigation.NomeEditor;
                     worksheet.Cell(linha, 6).Value = revista.CdAquisicaoNavigation.TipoAquisicao;
                     worksheet.Cell(linha, 7).Value = revista.CdPeriodicidadeNavigation.TipoPeriodicidade;
-
+                    worksheet.Cell(linha, 8).Value = revista.Chegada;
+                    
+                    
                 }
 
                 using (var stream = new MemoryStream())
@@ -206,6 +245,7 @@ namespace Web20
         }
 
         // GET: Revistums/Delete/5
+        [Authorize(Roles = "Administrador, Coordenador")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -229,8 +269,15 @@ namespace Web20
         // POST: Revistums/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador, Coordenador")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            var listaAtualizacao = _context.Atualizacaos.Where(a => a.CdRevista == id).ToList();
+            foreach (var lista in listaAtualizacao)
+            {
+                _context.Atualizacaos.Remove(lista);
+                await _context.SaveChangesAsync();
+            }
             var revistum = await _context.Revista.FindAsync(id);
             _context.Revista.Remove(revistum);
             await _context.SaveChangesAsync();

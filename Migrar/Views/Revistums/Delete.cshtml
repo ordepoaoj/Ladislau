@@ -1,0 +1,75 @@
+﻿@model Web20.Models.Revistum
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Apagar</h1>
+
+<div>
+    <h4>Revista</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Titulo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Titulo)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Aleph)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Aleph)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Ibict)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ibict)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Issn)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Issn)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Ativo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ativo)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Chegada)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Chegada)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CdAquisicaoNavigation)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CdAquisicaoNavigation.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CdEditorNavigation)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CdEditorNavigation.NomeEditor)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CdPeriodicidadeNavigation)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CdPeriodicidadeNavigation.Id)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Apagar" class="btn btn-danger" /> |
+        <a asp-action="Index">Voltar</a>
+    </form>
+</div>

@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Web20.Models.Revistum>
+
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Revistas</h1>
+
+<table class="table">
+    <thead>
+
+    </thead>
+    <tbody>
+
+        <tr>
+            <th>
+                Titulo
+            </th>
+            <th>
+                Aleph
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ibict)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Issn)
+            </th>
+            <th>
+                Editor
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="width:43%">
+                    @Html.DisplayFor(modelItem => item.Titulo)
+
+                </td>
+                <td style="width:10%">
+                    @Html.DisplayFor(modelItem => item.Aleph)
+                </td>
+                <td style="width:10%">
+                    @Html.DisplayFor(modelItem => item.Ibict)
+                </td>
+                <td style="width:10%">
+                    @Html.DisplayFor(modelItem => item.Issn)
+                </td>
+                <td style="width:27%">
+                    @Html.DisplayFor(modelItem => item.CdEditorNavigation.NomeEditor)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

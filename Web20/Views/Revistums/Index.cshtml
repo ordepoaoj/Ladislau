@@ -59,8 +59,9 @@
         {
             <tr>
                 <td style="width:38%">
-                    @Html.DisplayFor(modelItem => item.Titulo)
-
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.Titulo)
+                    </a>
                 </td>
                 <td style="width:10%">
                     @Html.DisplayFor(modelItem => item.Aleph)

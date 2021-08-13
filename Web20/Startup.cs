@@ -6,6 +6,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Web20.Models;
 using Rotativa.AspNetCore;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using System;
+using Web20.Areas.Identity.Data;
+using Web20.Services;
+using Web20.Entities;
 
 namespace Web20
 {
@@ -28,13 +34,14 @@ namespace Web20
                     Configuration.GetConnectionString("Web20ContextConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddControllersWithViews();
-            
-
-
+            services.AddHttpContextAccessor();
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
+            services.Configure<Field>(Configuration.GetSection("PTBrField"));
+            services.AddSingleton<IEmailSender, EmailSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -63,6 +70,25 @@ namespace Web20
             });
 
             RotativaConfiguration.Setup((Microsoft.AspNetCore.Hosting.IHostingEnvironment)env);
+
+            CreateRoles(serviceProvider).Wait();
+        }
+
+
+        private async Task CreateRoles(IServiceProvider serviceProvider)
+        {
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<Web20User>>();
+            string[] rolesNames = { "Coordenador", "Editor", "Usuario" };
+            IdentityResult result;
+            foreach (var namesRole in rolesNames)
+            {
+                var roleExist = await roleManager.RoleExistsAsync(namesRole);
+                if (!roleExist)
+                {
+                    result = await roleManager.CreateAsync(new IdentityRole(namesRole));
+                }
+            }
         }
     }
 }

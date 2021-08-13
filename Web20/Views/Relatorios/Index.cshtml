@@ -19,7 +19,7 @@
     Foram cadastradas até o momento <b>@ViewData["nRevista"] </b> revistas, desde a implantação do sistema Ladislau. Dividas em:
     <ul>
         <li><b>@ViewData["rBrasileiras"] </b> revistas encaminhadas pelos <b>@ViewData["eBrasil"] </b> editores Brasileiros <br /></li>
-        <li><b> @ViewData["rAmerica"] </b> revistas encaminhadas pelos <b>@ViewData["eAmerica"] </b> editores das três Americas com a excessão do Brasil.<br /></li>
+        <li><b> @ViewData["rAmerica"] </b> revistas encaminhadas pelos <b>@ViewData["eAmerica"] </b> editores das três Americas com a exceção do Brasil.<br /></li>
         <li><b>@ViewData["rEuropa"]</b> revistas encaminhadas pelos <b>@ViewData["eEuropa"] </b> editores Europeus <br /></li>
         <li><b>@ViewData["rAsia"]</b> revistas encaminhadas pelos <b>@ViewData["eAsia"] </b> editores Asiáticos <br /></li>
         <li><b>@ViewData["rAfrica"]</b> revistas encaminhadas pelos <b>@ViewData["eAfrica"] </b> editores Africanos <br /></li>
@@ -44,7 +44,7 @@
 
 <h3>Revista mais nova</h3>
 <p>
-    A revista mais antiga cadastrada até o momento é <b>@ViewData["rNova"]</b> do editor <b>@ViewData["erNova"]</b> com a aquisição no dia <b>@string.Format("{0:dd/MM/yyyy}", ViewData["drNova"])</b>,<br />
+    A revista mais nova cadastrada até o momento é <b>@ViewData["rNova"]</b> do editor <b>@ViewData["erNova"]</b> com a aquisição no dia <b>@string.Format("{0:dd/MM/yyyy}", ViewData["drNova"])</b>,<br />
     Está revista possui periodicidade <b>@ViewData["prNova"]</b> obtida através de <b>@ViewData["aqNova"]</b>  desde esta data sem nenhuma atualização.
 </p>
 <h3>Perfil das aquisições</h3>
@@ -74,7 +74,7 @@
 <h3>Perfil das pendencias</h3>
 
 <p>
-    Neste momentos estamos com <b>@ViewData["pTotal"]</b> revistas em pendencias, dentre elas temos a seguinte características:
+    Neste momento estamos com <b>@ViewData["pTotal"]</b> revistas em pendencias, dentre elas temos a seguinte características:
     <ul>
         <li><b>@ViewData["pMensal"]</b> revistas mensais em atraso</li>
         <li><b>@ViewData["pBimestral"]</b> revistas bimestrais em atraso</li>
@@ -136,10 +136,10 @@
         var data = google.visualization.arrayToDataTable([
           ['Task', 'Revistas'],
           ['Brasil',     @ViewData["rBrasileiras"]],
-          ['America',    @ViewData["rAmerica"]],
+          ['América',    @ViewData["rAmerica"]],
           ['Europa',  @ViewData["rEuropa"]],
-          ['Asia', @ViewData["rAsia"]],
-          ['Africa', @ViewData["rAfrica"]],
+          ['Ásia', @ViewData["rAsia"]],
+          ['África', @ViewData["rAfrica"]],
           ['Oceania', @ViewData["rOceania"]]
         ]);
 
@@ -215,7 +215,7 @@
     function drawRegionsMap() {
         var data = google.visualization.arrayToDataTable([
             ['Country', 'Livros'],
-            ['Brazil', 38],
+            ['Brazil', @ViewData["rBrasileiras"]],
             @Html.Raw(ViewBag.geoGrafico)
 
         ]);

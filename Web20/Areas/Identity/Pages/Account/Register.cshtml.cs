@@ -8,16 +8,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Web20.Areas.Identity.Data;
+using Web20.Services;
 
 namespace Web20.Areas.Identity.Pages.Account
 {
-    
+
+    [Authorize(Roles = "Administrador, Coordenador")]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<Web20User> _signInManager;
@@ -99,12 +101,12 @@ namespace Web20.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirme seu email",
+                        $"Seu usuário foi adicionado ao Ladislau, favor confirmar o seu email clicando aqui <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Clique aqui</a>.", $"Seu usuário foi adicionado ao Ladislau, favor confirmar o seu email clicando aqui <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        return RedirectToAction("CriarRegraUsuario", "Admin", new { id = user.Id });
                     }
                     else
                     {

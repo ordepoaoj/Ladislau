@@ -18,10 +18,5 @@ namespace Web20.Models
 
         public virtual ContinenteEditor CodContinenteNavigation { get; set; }
         public virtual ICollection<Editor> Editors { get; set; }
-
-        public static implicit operator PaisEditor(List<PaisEditor> v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

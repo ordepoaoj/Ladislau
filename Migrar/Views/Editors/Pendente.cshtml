@@ -1,0 +1,18 @@
+﻿@model Web20.Models.Editor
+
+@{
+    ViewData["Title"] = "Ação bloqueada";
+}
+
+<h1 class="text-danger">Ação bloqueada</h1>
+
+<h3>A exclusão não pode ser realizada</h3>
+<div>
+    <h5>O Editor @Html.DisplayFor(model => model.NomeEditor) possue  as revistas em seu nome</h5>
+
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="button" asp-action="Index" value="Voltar" class="btn btn-info" />
+    </form>
+</div>
