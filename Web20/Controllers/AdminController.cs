@@ -44,7 +44,7 @@ namespace Web20.Controllers
         {
             var user = await _context.AspNetUsers.FindAsync(id);
             ViewData["RoleId"] = new SelectList(_context.AspNetRoles, "Id", "Name");
-            ViewData["UserId"] = new SelectList(_context.AspNetUsers, "Id", "FirstName",user.FirstName);
+            ViewData["UserId"] = new SelectList(_context.AspNetUsers, "Id", "FirstName",user.Id);
             return View();
         }
 
