@@ -12,6 +12,7 @@ using System;
 using Web20.Areas.Identity.Data;
 using Web20.Services;
 using Web20.Entities;
+using Web20.Areas.Identity;
 
 namespace Web20
 {
@@ -38,6 +39,7 @@ namespace Web20
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
             services.Configure<Field>(Configuration.GetSection("PTBrField"));
             services.AddSingleton<IEmailSender, EmailSender>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

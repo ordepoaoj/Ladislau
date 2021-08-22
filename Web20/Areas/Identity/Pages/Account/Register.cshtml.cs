@@ -64,7 +64,7 @@ namespace Web20.Areas.Identity.Pages.Account
             public string LastName { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "A {0} deve conter  no mínimo {2} com pelo menos 1 letra maiuscula, 1 minuscula e 1 caracter especial", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Senha")]
             public string Password { get; set; }
