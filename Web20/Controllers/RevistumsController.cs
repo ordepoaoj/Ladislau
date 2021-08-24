@@ -1,17 +1,15 @@
-﻿using System;
+﻿using ClosedXML.Excel;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Rotativa.AspNetCore;
+using System;
 using System.IO;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using ClosedXML.Excel;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Rotativa.AspNetCore;
-using Web20.Areas.Identity.Data;
 using Web20.Models;
 
 namespace Web20
@@ -36,12 +34,12 @@ namespace Web20
         {
 #warning Este método contem uma parte de código não elegante. A fim de evitar a consulta e resposta de todos os resultados de maneira desnecessária -- Não esquecer de buscar uma solução mais elegante para o problema
             int block = 0; //Variável a fim de impedir a consulta desnecessária de todos os itens do CRUD -- Favor tratar esse código maneira mais elegante
-            var appDbContext = 
+            var appDbContext =
                 _context.Revista.Where(r => r.Id.Equals(block)).Include(r => r.CdAquisicaoNavigation).Include(r => r.CdEditorNavigation).Include(r => r.CdPeriodicidadeNavigation).OrderBy(r => r.Titulo);
-            
+
 
             var Revista = from r in _context.Revista
-                        select r;
+                          select r;
             if (!String.IsNullOrEmpty(search))
             {
                 Revista =
@@ -96,10 +94,10 @@ namespace Web20
             UniqueRevistum unica = new UniqueRevistum(_context);
             if (ModelState.IsValid && unica.verificar(revistum.Titulo.ToString(), revistum.Ibict.ToString(), revistum.Issn.ToString(), revistum.Aleph.ToString()) == false)
             {
-                
+
                 _context.Add(revistum);
                 await _context.SaveChangesAsync();
-                               
+
                 Atualizacao atualizacao = new Atualizacao()
                 {
                     CdRevista = revistum.Id,
@@ -118,7 +116,7 @@ namespace Web20
             ViewData["CdEditor"] = new SelectList(_context.Editors.OrderBy(r => r.NomeEditor), "Id", "NomeEditor", revistum.CdEditor);
             ViewData["CdPeriodicidade"] = new SelectList(_context.Periodicidades, "Id", "TipoPeriodicidade", revistum.CdPeriodicidade);
 
-            TempData["ErroRevista"] = "A revista " + revistum.Titulo.ToString() +  " contem dados da revista " + unica.nome(revistum.Titulo.ToString(), revistum.Ibict.ToString(), revistum.Issn.ToString(), revistum.Aleph.ToString()) + "." ;
+            TempData["ErroRevista"] = "A revista " + revistum.Titulo.ToString() + " contem dados da revista " + unica.nome(revistum.Titulo.ToString(), revistum.Ibict.ToString(), revistum.Issn.ToString(), revistum.Aleph.ToString()) + ".";
             return View();
         }
 
@@ -209,14 +207,14 @@ namespace Web20
                 worksheet.Cell(linha, 6).Value = "Aquisição";
                 worksheet.Cell(linha, 7).Value = "Periodicidade";
                 worksheet.Cell(linha, 8).Value = "Ultima Chegada";
-                
 
-                
+
+
 
                 foreach (var revista
                     in _context.Revista.Include(r => r.CdAquisicaoNavigation).Include(r => r.CdEditorNavigation).Include(r => r.CdPeriodicidadeNavigation).OrderBy(r => r.Titulo))
                 {
-                    
+
 
                     linha++;
                     worksheet.Cell(linha, 1).Value = revista.Titulo;
@@ -227,8 +225,8 @@ namespace Web20
                     worksheet.Cell(linha, 6).Value = revista.CdAquisicaoNavigation.TipoAquisicao;
                     worksheet.Cell(linha, 7).Value = revista.CdPeriodicidadeNavigation.TipoPeriodicidade;
                     worksheet.Cell(linha, 8).Value = revista.Chegada;
-                    
-                    
+
+
                 }
 
                 using (var stream = new MemoryStream())

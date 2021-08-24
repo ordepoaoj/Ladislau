@@ -17,7 +17,7 @@ namespace Web20.Models
             Revista = new HashSet<Revistum>();
         }
 
-        
+
 
         public int Id { get; set; }
         [Display(Name = "Nome do Editor")]
