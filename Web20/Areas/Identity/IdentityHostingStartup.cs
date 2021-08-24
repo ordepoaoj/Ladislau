@@ -1,7 +1,5 @@
-﻿using System;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +13,8 @@ namespace Web20.Areas.Identity
     {
         public void Configure(IWebHostBuilder builder)
         {
-            builder.ConfigureServices((context, services) => {
+            builder.ConfigureServices((context, services) =>
+            {
                 services.AddDbContext<Web20Context>(options =>
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("Web20ContextConnection")));
@@ -24,8 +23,8 @@ namespace Web20.Areas.Identity
                     .AddEntityFrameworkStores<Web20Context>()
                     .AddErrorDescriber<CustomIdentityErrorDescriber>();
 
-                
-                
+
+
             });
         }
     }

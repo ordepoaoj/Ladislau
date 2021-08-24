@@ -12,7 +12,7 @@ namespace Web20.Models
         {
             _consulta = consulta;
         }
-        public bool verificar (string Titulo, string IBICT, string ISSN, string Aleph) 
+        public bool verificar(string Titulo, string IBICT, string ISSN, string Aleph)
         {
 
             var Revista = from r in _consulta.Revista
@@ -22,8 +22,8 @@ namespace Web20.Models
             Revista = _consulta.Revista.Where(r => r.Titulo == Titulo || r.Ibict == IBICT || r.Issn == ISSN || r.Aleph == Aleph);
 
             consultas = Revista.ToList();
-            
-            if(consultas.Count > 0)
+
+            if (consultas.Count > 0)
             {
                 return true;
             }

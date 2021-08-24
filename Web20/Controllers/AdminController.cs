@@ -13,7 +13,7 @@ namespace Web20.Controllers
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly AppDbContext _context;
 
-        public AdminController (RoleManager<IdentityRole> roleManager, AppDbContext Context)
+        public AdminController(RoleManager<IdentityRole> roleManager, AppDbContext Context)
         {
             this.roleManager = roleManager;
             _context = Context;
@@ -25,11 +25,12 @@ namespace Web20.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> CriarRegra (AspNetRole criar)
+        public async Task<IActionResult> CriarRegra(AspNetRole criar)
         {
             if (ModelState.IsValid)
             {
-                IdentityRole identityRole = new IdentityRole {
+                IdentityRole identityRole = new IdentityRole
+                {
                     Name = criar.Name
                 };
                 IdentityResult resultado = await roleManager.CreateAsync(identityRole);
@@ -38,19 +39,19 @@ namespace Web20.Controllers
             }
             return View(criar);
         }
-        
+
 
         public async Task<IActionResult> CriarRegraUsuarioAsync(string id)
         {
             var user = await _context.AspNetUsers.FindAsync(id);
             ViewData["RoleId"] = new SelectList(_context.AspNetRoles, "Id", "Name");
-            ViewData["UserId"] = new SelectList(_context.AspNetUsers, "Id", "FirstName",user.Id);
+            ViewData["UserId"] = new SelectList(_context.AspNetUsers, "Id", "FirstName", user.Id);
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CriarRegraUsuario ([Bind("UserId,RoleId")] AspNetUserRole aspNetUserRole)
+        public async Task<IActionResult> CriarRegraUsuario([Bind("UserId,RoleId")] AspNetUserRole aspNetUserRole)
         {
             if (ModelState.IsValid)
             {

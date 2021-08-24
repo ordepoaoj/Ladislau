@@ -12,7 +12,7 @@ namespace Web20.Models
             _consulta = consulta;
         }
 
-        public bool verificar (string Titulo)
+        public bool verificar(string Titulo)
         {
             var Editor = from e in _consulta.Editors
                          select e;
@@ -20,10 +20,10 @@ namespace Web20.Models
             Editor = _consulta.Editors.Where(e => e.NomeEditor == Titulo);
             lista = Editor.ToList();
 
-            if(lista.Count() > 0)
+            if (lista.Count() > 0)
             {
                 return false;
-            }          
+            }
             return true;
         }
     }

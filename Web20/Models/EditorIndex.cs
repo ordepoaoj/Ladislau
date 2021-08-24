@@ -4,6 +4,6 @@
     {
         public Editor editor { get; set; }
 
-        public Revistum revista { get; set; } 
+        public Revistum revista { get; set; }
     }
 }

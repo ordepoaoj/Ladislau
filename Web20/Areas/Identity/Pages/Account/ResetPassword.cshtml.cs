@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
+using System.Threading.Tasks;
 using Web20.Areas.Identity.Data;
 
 namespace Web20.Areas.Identity.Pages.Account
@@ -35,7 +32,7 @@ namespace Web20.Areas.Identity.Pages.Account
             [Required]
             [StringLength(100, ErrorMessage = "A senha deve ter pelo menos 6 caracteres.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name ="Senha")]
+            [Display(Name = "Senha")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
