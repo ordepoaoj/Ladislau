@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Web20.Areas.Identity.Data;
+using Web20.Models;
 using Web20.Services;
 
 namespace Web20.Areas.Identity.Pages.Account
@@ -62,8 +63,9 @@ namespace Web20.Areas.Identity.Pages.Account
                 protocol: Request.Scheme);
             await _emailSender.SendEmailAsync(
                 Input.Email,
-                "Confirm your email",
-                $"Favor confirmar o seu email clicando aqui <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Cique aqui</a>.", $"Favor confirmar o seu email clicando aqui <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Cique aqui</a>.");
+                "Confirmar Email", 
+                FormatadorEmail.FormatarEmailConfirmacao(user.FirstName.ToString(), HtmlEncoder.Default.Encode(callbackUrl)),
+                FormatadorEmail.FormatarEmailConfirmacao(user.FirstName.ToString(), HtmlEncoder.Default.Encode(callbackUrl)));
 
             ModelState.AddModelError(string.Empty, "Verificação enviada. Por favor verifique o seu e-mail.");
             return Page();
