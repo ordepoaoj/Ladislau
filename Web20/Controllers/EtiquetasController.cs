@@ -19,7 +19,7 @@ namespace Web20.Controllers
 
         public async Task<IActionResult> Index()
         {
-            
+
             var contexto = _context.Editors.Include(r => r.CodPaisNavigation.CodContinenteNavigation).OrderBy(r => r.CodPaisNavigation.CodContinente);
             return View(await contexto.ToListAsync());
         }

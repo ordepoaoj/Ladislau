@@ -13,13 +13,13 @@ namespace Web20.Controllers
     {
         private readonly AppDbContext _context;
 
-        public RelatoriosController (AppDbContext context)
+        public RelatoriosController(AppDbContext context)
         {
             _context = context;
         }
         public IActionResult Index()
         {
-            
+
             #region Total
 
             ViewData["nRevista"] = _context.Revista.Count();
@@ -63,20 +63,20 @@ namespace Web20.Controllers
 
             #region Revista-Pais
             int nPaises = 216;
-            string[,] valor = new string[2,nPaises];
+            string[,] valor = new string[2, nPaises];
             string[] pais = new string[nPaises];
             var tpais = new object[nPaises];
-            
+
             for (int total = 1; total < nPaises; total++)
             {
-                valor[0,total] = _context.Revista.Where(r => r.CdEditorNavigation.CodPais == total).Count().ToString();
+                valor[0, total] = _context.Revista.Where(r => r.CdEditorNavigation.CodPais == total).Count().ToString();
                 valor[1, total] = _context.PaisEditors.Where(r => r.Id == total).Select(r => r.NomePais).FirstOrDefault().ToString();
                 pais[total] = "['" + valor[1, total] + "', " + valor[0, total] + "],";
 
             }
 
             string dados = "";
-            for (int c =0; c < pais.Length; c++)
+            for (int c = 0; c < pais.Length; c++)
             {
                 dados += pais[c];
             }
@@ -124,7 +124,7 @@ namespace Web20.Controllers
             #region Recebimento-Tempo
 
             #region contador-Revista
-            int revistasAno =_context.Revista.Where(r => SqlServerDbFunctionsExtensions.DateDiffDay(db, r.Chegada, hoje) <= 365).Count();
+            int revistasAno = _context.Revista.Where(r => SqlServerDbFunctionsExtensions.DateDiffDay(db, r.Chegada, hoje) <= 365).Count();
             int revistas1Ano = _context.Revista.Where(r => SqlServerDbFunctionsExtensions.DateDiffDay(db, r.Chegada, hoje) > 365 && SqlServerDbFunctionsExtensions.DateDiffDay(db, r.Chegada, hoje) <= 730).Count();
             int revistas2Anos = _context.Revista.Where(r => SqlServerDbFunctionsExtensions.DateDiffDay(db, r.Chegada, hoje) > 730 && SqlServerDbFunctionsExtensions.DateDiffDay(db, r.Chegada, hoje) <= 1095).Count();
             int revistasMais3anos = _context.Revista.Where(r => SqlServerDbFunctionsExtensions.DateDiffDay(db, r.Chegada, hoje) > 1095).Count();
@@ -175,7 +175,7 @@ namespace Web20.Controllers
             return View(pais);
         }
 
-        public IActionResult PDF ()
+        public IActionResult PDF()
         {
             #region Total
 
@@ -334,7 +334,7 @@ namespace Web20.Controllers
             {
                 FileName = "Relatorio.pdf",
                 CustomSwitches = "--no-stop-slow-scripts --javascript-delay 1000 "
-            }; 
+            };
         }
     }
 }

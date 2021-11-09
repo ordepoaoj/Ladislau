@@ -38,6 +38,9 @@ namespace Web20.Models
         [Required(ErrorMessage = "A periodicidade é necessária")]
         public int? CdPeriodicidade { get; set; }
 
+        [Display(Name = "Endereço Online da Revista")]
+        public string url { get; set; }
+
         [Display(Name = "Aquisição")]
         public virtual Aquisicao CdAquisicaoNavigation { get; set; }
         [Display(Name = "Editor")]
@@ -45,5 +48,6 @@ namespace Web20.Models
         [Display(Name = "Periodicidade")]
         public virtual Periodicidade CdPeriodicidadeNavigation { get; set; }
         public virtual ICollection<Atualizacao> Atualizacaos { get; set; }
+
     }
 }

@@ -1,18 +1,17 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Web20.Models;
 using Rotativa.AspNetCore;
-using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
 using System;
+using System.Threading.Tasks;
 using Web20.Areas.Identity.Data;
-using Web20.Services;
 using Web20.Entities;
-using Web20.Areas.Identity;
+using Web20.Models;
+using Web20.Services;
 
 namespace Web20
 {
@@ -29,7 +28,7 @@ namespace Web20
         public void ConfigureServices(IServiceCollection services)
         {
 
-            
+
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("Web20ContextConnection")));
@@ -39,7 +38,7 @@ namespace Web20
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
             services.Configure<Field>(Configuration.GetSection("PTBrField"));
             services.AddSingleton<IEmailSender, EmailSender>();
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
