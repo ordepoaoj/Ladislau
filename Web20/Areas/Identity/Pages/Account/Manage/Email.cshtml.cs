@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 using Web20.Areas.Identity.Data;
 using Web20.Services;
 
@@ -45,7 +41,7 @@ namespace Web20.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Required (ErrorMessage ="O Email é obrigatório")]
+            [Required(ErrorMessage = "O Email é obrigatório")]
             [EmailAddress]
             [Display(Name = "Novo Email")]
             public string NewEmail { get; set; }

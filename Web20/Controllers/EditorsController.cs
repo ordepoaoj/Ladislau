@@ -1,13 +1,13 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using ClosedXML.Excel;
+﻿using ClosedXML.Excel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Rotativa.AspNetCore;
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using Web20.Models;
 
 namespace Web20.Controllers
@@ -21,9 +21,9 @@ namespace Web20.Controllers
         {
             _context = context;
         }
-      
+
         [HttpPost]
-        
+
         public string Index(string search, bool notUsed)
         {
             return "From [HttpPost]Index: filter on " + search;
@@ -33,14 +33,14 @@ namespace Web20.Controllers
         public async Task<IActionResult> Index(string search)
         {
             var appDbContext = _context.Editors.Include(e => e.CodPaisNavigation).OrderBy(e => e.NomeEditor);
-            
+
 
             var Editor = from e in _context.Editors
                          select e;
-            if(!String.IsNullOrEmpty(search))
+            if (!String.IsNullOrEmpty(search))
             {
                 Editor = Editor.Where(s => s.NomeEditor.Contains(search)).Include(e => e.CodPaisNavigation).OrderBy(e => e.NomeEditor);
-                
+
                 return View(await Editor.ToListAsync());
             }
             return View(await appDbContext.ToListAsync());
@@ -124,7 +124,7 @@ namespace Web20.Controllers
         [Authorize(Roles = "Administrador, Editor, Coordenador")]
         public async Task<IActionResult> Edit(int? id)
         {
-            
+
             if (id == null)
             {
                 return NotFound();
@@ -136,7 +136,7 @@ namespace Web20.Controllers
             {
                 return NotFound();
             }
-            
+
             return View(editor);
         }
 
@@ -180,18 +180,18 @@ namespace Web20.Controllers
         [Authorize(Roles = "Administrador, Coordenador")]
         public async Task<IActionResult> Delete(int? id)
         {
-            
+
             var Revista = from e in _context.Revista
                           select e;
             int valor = Revista.Where(s => s.CdEditor.Equals(id)).Count();
             if (valor == 0)
             {
-                 var editor = await _context.Editors
-                .Include(e => e.CodPaisNavigation)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            return View(editor);
+                var editor = await _context.Editors
+               .Include(e => e.CodPaisNavigation)
+               .FirstOrDefaultAsync(m => m.Id == id);
+                return View(editor);
             }
-            return RedirectToAction(nameof(Pendente), new {id = id });
+            return RedirectToAction(nameof(Pendente), new { id = id });
 
         }
 
@@ -201,10 +201,10 @@ namespace Web20.Controllers
             return new ViewAsPdf(await appDbContext.ToListAsync());
         }
 
-        public async Task<IActionResult> Excel ()
+        public async Task<IActionResult> Excel()
         {
             var appDbContext = _context.Editors.Include(e => e.CodPaisNavigation).OrderBy(e => e.NomeEditor);
-            
+
 
             using (var workbook = new XLWorkbook())
             {

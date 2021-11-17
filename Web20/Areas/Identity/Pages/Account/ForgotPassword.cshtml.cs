@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Encodings.Web;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 using Web20.Areas.Identity.Data;
+using Web20.Models;
 using Web20.Services;
 
 namespace Web20.Areas.Identity.Pages.Account
@@ -42,6 +40,7 @@ namespace Web20.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(Input.Email);
+
                 if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
@@ -60,9 +59,9 @@ namespace Web20.Areas.Identity.Pages.Account
 
                 await _emailSender.SendEmailAsync(
                     Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.").ConfigureAwait(false);
+                    "Redefinir Senha", 
+                    FormatadorEmail.FormatarEmailRedefinirSenha(user.FirstName.ToString(), HtmlEncoder.Default.Encode(callbackUrl)), 
+                    FormatadorEmail.FormatarEmailRedefinirSenha(user.FirstName.ToString(), HtmlEncoder.Default.Encode(callbackUrl))).ConfigureAwait(false);
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }
