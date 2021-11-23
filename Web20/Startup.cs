@@ -10,8 +10,10 @@ using System;
 using System.Threading.Tasks;
 using Web20.Areas.Identity.Data;
 using Web20.Entities;
+using Web20.Interfaces;
 using Web20.Models;
 using Web20.Services;
+using Web20.Services.Pendencias;
 
 namespace Web20
 {
@@ -33,6 +35,7 @@ namespace Web20
                 options.UseSqlServer(
                     Configuration.GetConnectionString("Web20ContextConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
+            services.AddScoped<IPendenciasServicos, PendenciasServicos>();
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
