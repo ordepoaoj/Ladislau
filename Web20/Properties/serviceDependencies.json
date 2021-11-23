@@ -1,12 +1,12 @@
 {
   "dependencies": {
-    "mssql1": {
-      "type": "mssql",
-      "connectionId": "Web20ContextConnection"
-    },
     "mssql2": {
       "type": "mssql",
       "connectionId": "DefaultConnextion"
+    },
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "Web20ContextConnection"
     }
   }
 }

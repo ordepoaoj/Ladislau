@@ -5,6 +5,12 @@
       "type": "mssql.azure",
       "connectionId": "DefaultConnextion",
       "secretStore": "AzureAppSettings"
+    },
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/LadislauServerDB/databases/LadislauDB",
+      "type": "mssql.azure",
+      "connectionId": "Web20ContextConnection",
+      "secretStore": "AzureAppSettings"
     }
   }
 }

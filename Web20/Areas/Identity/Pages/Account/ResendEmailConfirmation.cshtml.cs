@@ -63,7 +63,7 @@ namespace Web20.Areas.Identity.Pages.Account
                 protocol: Request.Scheme);
             await _emailSender.SendEmailAsync(
                 Input.Email,
-                "Confirmar Email", 
+                "Confirmar Email",
                 FormatadorEmail.FormatarEmailConfirmacao(user.FirstName.ToString(), HtmlEncoder.Default.Encode(callbackUrl)),
                 FormatadorEmail.FormatarEmailConfirmacao(user.FirstName.ToString(), HtmlEncoder.Default.Encode(callbackUrl)));
 

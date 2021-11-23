@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Web20.Interfaces;
 using Web20.Models;
 
 namespace Web20.Controllers
@@ -11,56 +12,30 @@ namespace Web20.Controllers
     [Authorize]
     public class PendenciaController : Controller
     {
+        private readonly IPendenciasServicos pendenciasServicos;
         private readonly AppDbContext _context;
-
-        public PendenciaController(AppDbContext context)
+       
+        public PendenciaController(AppDbContext context, IPendenciasServicos pendenciasServicos)
         {
             _context = context;
+            this.pendenciasServicos = pendenciasServicos;
         }
 
-        // GET: Pendencia
         public async Task<IActionResult> Index()
         {
-            DbFunctions db = null;
-            int mensal = 1;
-            int anual = 2;
-            int trimestral = 3;
-            int bimestral = 4;
-            int quadrimestral = 5;
-            int semestral = 8;
-            DateTime hoje = DateTime.Today;
+            var Pendencias = pendenciasServicos.PendenciasMensais(_context);
 
-            var appDbContext = _context.Revista.Where(r => SqlServerDbFunctionsExtensions.DateDiffDay(db, r.Chegada, hoje) >= 60 && r.CdPeriodicidade == mensal)
-                .Include(r => r.CdAquisicaoNavigation)
-                    .Include(r => r.CdEditorNavigation)
-                        .Include(r => r.CdPeriodicidadeNavigation)
-                            .OrderBy(r => r.CdPeriodicidade).OrderBy(r => r.Titulo);
+            ViewData["Bimestral"] = pendenciasServicos.PendenciasBimestrais(_context);
 
-            ViewData["Bimestral"] = _context.Revista.Where(r => SqlServerDbFunctionsExtensions.DateDiffDay(db, r.Chegada, hoje) >= 90 && r.CdPeriodicidade == bimestral)
-                .Include(r => r.CdEditorNavigation)
-                    .Include(r => r.CdPeriodicidadeNavigation)
-                        .OrderBy(r => r.Titulo);
+            ViewData["Trimestral"] = pendenciasServicos.PendenciasTrimestrais(_context);
 
-            ViewData["Trimestral"] = _context.Revista.Where(r => SqlServerDbFunctionsExtensions.DateDiffDay(db, r.Chegada, hoje) >= 120 && r.CdPeriodicidade == trimestral)
-                .Include(r => r.CdEditorNavigation)
-                    .Include(r => r.CdPeriodicidadeNavigation)
-                        .OrderBy(r => r.Titulo);
-            ViewData["Quadrimestral"] = _context.Revista.Where(r => SqlServerDbFunctionsExtensions.DateDiffDay(db, r.Chegada, hoje) >= 150 && r.CdPeriodicidade == quadrimestral)
-                .Include(r => r.CdEditorNavigation)
-                    .Include(r => r.CdPeriodicidadeNavigation)
-                        .OrderBy(r => r.Titulo);
+            ViewData["Quadrimestral"] = pendenciasServicos.PendenciasQuadrimestrais(_context);
 
-            ViewData["Semestral"] = _context.Revista.Where(r => SqlServerDbFunctionsExtensions.DateDiffDay(db, r.Chegada, hoje) >= 210 && r.CdPeriodicidade == semestral)
-                .Include(r => r.CdEditorNavigation)
-                    .Include(r => r.CdPeriodicidadeNavigation)
-                        .OrderBy(r => r.Titulo);
+            ViewData["Semestral"] = pendenciasServicos.PendenciasSemestrais(_context);
 
-            ViewData["Anual"] = _context.Revista.Where(r => SqlServerDbFunctionsExtensions.DateDiffDay(db, r.Chegada, hoje) >= 395 && r.CdPeriodicidade == anual)
-                .Include(r => r.CdEditorNavigation)
-                    .Include(r => r.CdPeriodicidadeNavigation)
-                        .OrderBy(r => r.Titulo);
+            ViewData["Anual"] = pendenciasServicos.PendenciasAnuais(_context);
 
-            return View(await appDbContext.ToListAsync());
+            return View(Pendencias);
         }
 
     }

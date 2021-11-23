@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Web20.Models
+﻿namespace Web20.Models
 {
     public class FormatadorEmail
     {
         public static string FormatarEmailRedefinirSenha(string primeiroNome, string linkSenha)
         {
-            string Email = 
+            string Email =
                            "<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" style=\"width:100%;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0\">" +
                            " <head> " +
                                 "­<meta charset = \"UTF-8\" >" +
@@ -82,91 +77,91 @@ namespace Web20.Models
                                                                                                     "<td align=\"center\" style=\"padding:0;Margin:0;padding-left:40px;padding-right:40px\"><p style=\"Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:24px;color:#666666;font-size:16px\">Olá, " + primeiroNome + " .</p></td>" +
                                                                                                  "</tr>" +
                                                                                                  "­<tr style = \"border-collapse:collapse\" >"
-                                                                                                 + "<td align=\"center\" style=\"padding:0;Margin:0;padding-right:35px;padding-left:40px\"><p style=\"Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:24px;color:#666666;font-size:16px\">Recentemente você pediu&nbsp;para redefinir a senha da sua conta no Ladislau!</p></td>"   + 
-                                                                                                 "</tr>" + 
-                                                                                                 "<tr style=\"border-collapse:collapse\">" + 
-                                                                                                    "<td align=\"center\" style=\"padding:0;Margin:0;padding-top:10px;padding-left:40px;padding-right:40px\"><p style=\"Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:24px;color:#666666;font-size:16px\">Clique no botão abaixo para redefinir a sua senha no sistema.</p></td>" + 
-                                                                                                  "</tr>"+ 
-                                                                                                  "<tr style=\"border-collapse:collapse\">"+ 
-                                                                                                    "<td align=\"center\" style=\"Margin:0;padding-left:10px;padding-right:10px;padding-top:40px;padding-bottom:40px\"><span class=\"es-button-border\" style=\"border-style:solid;border-color:#3D5CA3;background:#FFFFFF;border-width:2px;display:inline-block;border-radius:10px;width:auto\"><a href=\"" + linkSenha +  "\" class=\"es-button\" target=\"_blank\" style=\"mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#3D5CA3;font-size:14px;border-style:solid;border-color:#FFFFFF;border-width:15px 20px 15px 20px;display:inline-block;background:#FFFFFF;border-radius:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:bold;font-style:normal;line-height:17px;width:auto;text-align:center\">REDEFINIR SENHA</a></span></td>" +
-                                                                                                    "</tr> " + 
-                                                                                                    "<tr style=\"border-collapse:collapse\"> "+ 
-                                                                                                        "<td align=\"center\" style=\"padding:0;Margin:0\"><p style=\"Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:24px;color:#666666;font-size:16px\">Case, você não tenha pedido para reinicializar o seu e-mail, favor desconsiderar este e-mail.</p></td>"+
+                                                                                                 + "<td align=\"center\" style=\"padding:0;Margin:0;padding-right:35px;padding-left:40px\"><p style=\"Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:24px;color:#666666;font-size:16px\">Recentemente você pediu&nbsp;para redefinir a senha da sua conta no Ladislau!</p></td>" +
+                                                                                                 "</tr>" +
+                                                                                                 "<tr style=\"border-collapse:collapse\">" +
+                                                                                                    "<td align=\"center\" style=\"padding:0;Margin:0;padding-top:10px;padding-left:40px;padding-right:40px\"><p style=\"Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:24px;color:#666666;font-size:16px\">Clique no botão abaixo para redefinir a sua senha no sistema.</p></td>" +
+                                                                                                  "</tr>" +
+                                                                                                  "<tr style=\"border-collapse:collapse\">" +
+                                                                                                    "<td align=\"center\" style=\"Margin:0;padding-left:10px;padding-right:10px;padding-top:40px;padding-bottom:40px\"><span class=\"es-button-border\" style=\"border-style:solid;border-color:#3D5CA3;background:#FFFFFF;border-width:2px;display:inline-block;border-radius:10px;width:auto\"><a href=\"" + linkSenha + "\" class=\"es-button\" target=\"_blank\" style=\"mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#3D5CA3;font-size:14px;border-style:solid;border-color:#FFFFFF;border-width:15px 20px 15px 20px;display:inline-block;background:#FFFFFF;border-radius:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:bold;font-style:normal;line-height:17px;width:auto;text-align:center\">REDEFINIR SENHA</a></span></td>" +
+                                                                                                    "</tr> " +
+                                                                                                    "<tr style=\"border-collapse:collapse\"> " +
+                                                                                                        "<td align=\"center\" style=\"padding:0;Margin:0\"><p style=\"Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:24px;color:#666666;font-size:16px\">Case, você não tenha pedido para reinicializar o seu e-mail, favor desconsiderar este e-mail.</p></td>" +
                                                                                                      "</tr>" +
-                                                                                            "</ table >" + 
+                                                                                            "</ table >" +
                                                                                         "</ td >" +
-                                                                                    "</ tr >" + 
+                                                                                    "</ tr >" +
                                                                                     "</ table >" +
                                                                               "</ td >" +
                                                                           "</ tr >" +
                                                                             "­<tr style =\"border-collapse:collapse\">" +
-                                                                                "­<td style =\"Margin:0;padding-top:5px;padding-bottom:20px;padding-left:20px;padding-right:20px;background-position:left top\" align=\"left\">"+
+                                                                                "­<td style =\"Margin:0;padding-top:5px;padding-bottom:20px;padding-left:20px;padding-right:20px;background-position:left top\" align=\"left\">" +
                                                                              "­<table width =\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px\">" +
                                                                                 "­<tr style =\"border-collapse:collapse\"> " +
                                                                                     "­<td valign =\"top\" align=\"center\" style=\"padding:0;Margin:0;width:560px\">" +
                                                                                     "­<table width =\"100%\" cellspacing=\"0\" cellpadding=\"0\" role=\"presentation\" style=\"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px\"> "
               + "<tr style=\"border-collapse:collapse\"> "
               + "<td align=\"center\" style=\"padding:0;Margin:0\"><p style=\"Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:21px;color:#666666;font-size:14px\">Atenciosamente | Biblioteca do Museu Nacional</p></td> "
-              + "</tr>" 
-              +                    "</ table ></ td >"
-              +                  "</ tr >"
-              +                "</ table ></ td >"
-              +              "</ tr >"
-              +            "</ table ></ td >"
-              +          "</ tr >"
-              +        "</ table >"
-              +        "­<table class=\"es-footer\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\" style=\"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%;background-color:transparent;background-repeat:repeat;background-position:center top\"> "
-+          "<tr style =\"border-collapse:collapse\"> "
-+           "<td style =\"padding:0;Margin:0;background-color:#fafafa\" bgcolor=\"#fafafa\" align=\"center\"> "
-+            "<table class=\"es-footer-body\" cellspacing=\"0\" cellpadding=\"0\" bgcolor=\"#ffffff\" align=\"center\" style=\"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:transparent;width:600px\"> "
-+              "<tr style =\"border-collapse:collapse\"> "
-+               "<td style =\"Margin:0;padding-top:10px;padding-left:20px;padding-right:20px;padding-bottom:30px;background-color:#0b5394;background-position:left top\" bgcolor=\"#0b5394\" align=\"left\"> "
-+                "<table width =\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px\"> "
-+                  "<tr style =\"border-collapse:collapse\">" 
-+                   "<td valign =\"top\" align=\"center\" style=\"padding:0;Margin:0;width:560px\"> "
-+                    "<table width =\"100%\" cellspacing=\"0\" cellpadding=\"0\" role=\"presentation\" style=\"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px\"> "
-+                       "<tr style=\"border-collapse:collapse\"> "
-+                           "<td align=\"left\" style=\"padding:0;Margin:0;padding-top:5px;padding-bottom:5px\"><h2 style=\"Margin:0;line-height:19px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:16px;font-style:normal;font-weight:normal;color:#ffffff\"><strong>ALGUMA DUVIDA?</strong></h2></td>" 
-+                       "</tr>" 
-+                       "<tr style=\"border-collapse:collapse\"> "
-+                           "<td align=\"left\" style=\"padding:0;Margin:0;padding-bottom:5px\"><p style=\"Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:21px;color:#ffffff;font-size:14px\">Contate-nos pelo email suporte@mn.ufrj.br</p></td> "
-+                       "</tr>"
-+                    "</table></td>" 
-+                  "</tr>" 
-+                "</table></td>" 
-+              "</tr> "
-+            "</table></td> "
-+          "</tr>" 
-+        "</table>"
-+        "<table class=\"es-content\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\" style=\"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%\"> "
-+          "<tr style =\"border-collapse:collapse\"> "
-+           "<td style =\"padding:0;Margin:0;background-color:#fafafa\" bgcolor=\"#fafafa\" align=\"center\">"
-+            "<table class=\"es-content-body\" style=\"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:transparent;width:600px\" cellspacing=\"0\" cellpadding=\"0\" bgcolor=\"transparent\" align=\"center\">"
-+              "<tr style =\"border-collapse:collapse\"> "
-+               "<td style =\"padding:0;Margin:0;padding-top:15px;background-position:left top\" align=\"left\"> "
-+                "<table width =\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px\"> "
-+                  "<tr style =\"border-collapse:collapse\"> "
-+                   "<td valign =\"top\" align=\"center\" style=\"padding:0;Margin:0;width:600px\"> "
-+                    "<table width =\"100%\" cellspacing=\"0\" cellpadding=\"0\" role=\"presentation\" style=\"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px\"> "
-+                       "<tr style=\"border-collapse:collapse\">"
-+                           "<td align=\"center\" style=\"padding:0;Margin:0;padding-bottom:20px;padding-left:20px;padding-right:20px;font-size:0\">"
-+                        " <table width=\"100%\" height=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" role=\"presentation\" style=\"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px\">"
-+                       "   <tr style=\"border-collapse:collapse\">" 
-+                       "    <td style=\"padding:0;Margin:0;border-bottom:1px solid #fafafa;background:none;height:1px;width:100%;margin:0px\"></td>" 
-+                       "   </tr>"
-+                   " </table></td>"
-+                   "</tr>" 
-+                    "</table></td> "
-+                  "</tr> "
-+                "</table></td>" 
-+              "</tr> "
-+            "</table></td>" 
-+          "</tr> "
-+        "</table></td> "
-+      "</tr>" 
-+    "</table>" 
-+   "</div>"  
-+  "</body>"
+              + "</tr>"
+              + "</ table ></ td >"
+              + "</ tr >"
+              + "</ table ></ td >"
+              + "</ tr >"
+              + "</ table ></ td >"
+              + "</ tr >"
+              + "</ table >"
+              + "­<table class=\"es-footer\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\" style=\"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%;background-color:transparent;background-repeat:repeat;background-position:center top\"> "
++ "<tr style =\"border-collapse:collapse\"> "
++ "<td style =\"padding:0;Margin:0;background-color:#fafafa\" bgcolor=\"#fafafa\" align=\"center\"> "
++ "<table class=\"es-footer-body\" cellspacing=\"0\" cellpadding=\"0\" bgcolor=\"#ffffff\" align=\"center\" style=\"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:transparent;width:600px\"> "
++ "<tr style =\"border-collapse:collapse\"> "
++ "<td style =\"Margin:0;padding-top:10px;padding-left:20px;padding-right:20px;padding-bottom:30px;background-color:#0b5394;background-position:left top\" bgcolor=\"#0b5394\" align=\"left\"> "
++ "<table width =\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px\"> "
++ "<tr style =\"border-collapse:collapse\">"
++ "<td valign =\"top\" align=\"center\" style=\"padding:0;Margin:0;width:560px\"> "
++ "<table width =\"100%\" cellspacing=\"0\" cellpadding=\"0\" role=\"presentation\" style=\"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px\"> "
++ "<tr style=\"border-collapse:collapse\"> "
++ "<td align=\"left\" style=\"padding:0;Margin:0;padding-top:5px;padding-bottom:5px\"><h2 style=\"Margin:0;line-height:19px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:16px;font-style:normal;font-weight:normal;color:#ffffff\"><strong>ALGUMA DUVIDA?</strong></h2></td>"
++ "</tr>"
++ "<tr style=\"border-collapse:collapse\"> "
++ "<td align=\"left\" style=\"padding:0;Margin:0;padding-bottom:5px\"><p style=\"Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:21px;color:#ffffff;font-size:14px\">Contate-nos pelo email suporte@mn.ufrj.br</p></td> "
++ "</tr>"
++ "</table></td>"
++ "</tr>"
++ "</table></td>"
++ "</tr> "
++ "</table></td> "
++ "</tr>"
++ "</table>"
++ "<table class=\"es-content\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\" style=\"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%\"> "
++ "<tr style =\"border-collapse:collapse\"> "
++ "<td style =\"padding:0;Margin:0;background-color:#fafafa\" bgcolor=\"#fafafa\" align=\"center\">"
++ "<table class=\"es-content-body\" style=\"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:transparent;width:600px\" cellspacing=\"0\" cellpadding=\"0\" bgcolor=\"transparent\" align=\"center\">"
++ "<tr style =\"border-collapse:collapse\"> "
++ "<td style =\"padding:0;Margin:0;padding-top:15px;background-position:left top\" align=\"left\"> "
++ "<table width =\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px\"> "
++ "<tr style =\"border-collapse:collapse\"> "
++ "<td valign =\"top\" align=\"center\" style=\"padding:0;Margin:0;width:600px\"> "
++ "<table width =\"100%\" cellspacing=\"0\" cellpadding=\"0\" role=\"presentation\" style=\"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px\"> "
++ "<tr style=\"border-collapse:collapse\">"
++ "<td align=\"center\" style=\"padding:0;Margin:0;padding-bottom:20px;padding-left:20px;padding-right:20px;font-size:0\">"
++ " <table width=\"100%\" height=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" role=\"presentation\" style=\"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px\">"
++ "   <tr style=\"border-collapse:collapse\">"
++ "    <td style=\"padding:0;Margin:0;border-bottom:1px solid #fafafa;background:none;height:1px;width:100%;margin:0px\"></td>"
++ "   </tr>"
++ " </table></td>"
++ "</tr>"
++ "</table></td> "
++ "</tr> "
++ "</table></td>"
++ "</tr> "
++ "</table></td>"
++ "</tr> "
++ "</table></td> "
++ "</tr>"
++ "</table>"
++ "</div>"
++ "</body>"
 + "</html>";
 
 

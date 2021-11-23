@@ -59,8 +59,8 @@ namespace Web20.Areas.Identity.Pages.Account
 
                 await _emailSender.SendEmailAsync(
                     Input.Email,
-                    "Redefinir Senha", 
-                    FormatadorEmail.FormatarEmailRedefinirSenha(user.FirstName.ToString(), HtmlEncoder.Default.Encode(callbackUrl)), 
+                    "Redefinir Senha",
+                    FormatadorEmail.FormatarEmailRedefinirSenha(user.FirstName.ToString(), HtmlEncoder.Default.Encode(callbackUrl)),
                     FormatadorEmail.FormatarEmailRedefinirSenha(user.FirstName.ToString(), HtmlEncoder.Default.Encode(callbackUrl))).ConfigureAwait(false);
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
