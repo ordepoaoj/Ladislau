@@ -14,6 +14,7 @@ using Web20.Interfaces;
 using Web20.Models;
 using Web20.Services;
 using Web20.Services.Pendencias;
+using Web20.Services.Revistas;
 
 namespace Web20
 {
@@ -36,6 +37,7 @@ namespace Web20
                     Configuration.GetConnectionString("Web20ContextConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddScoped<IPendenciasServicos, PendenciasServicos>();
+            services.AddScoped<IRevistaServicos, RevistaServicos>();
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));

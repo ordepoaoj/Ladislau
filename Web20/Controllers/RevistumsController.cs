@@ -5,11 +5,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Rotativa.AspNetCore;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Web20.Interfaces;
 using Web20.Models;
 
 namespace Web20
@@ -17,11 +19,13 @@ namespace Web20
     [Authorize(Roles = "Administrador, Usuario, Editor, Coordenador")]
     public class RevistumsController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly AppDbContext context;
+        private readonly IRevistaServicos revistaServicos;
 
-        public RevistumsController(AppDbContext context)
+        public RevistumsController(AppDbContext context, IRevistaServicos revistaServicos)
         {
-            _context = context;
+            this.context = context;
+            this.revistaServicos = revistaServicos;
         }
 
         [HttpPost]
@@ -32,41 +36,17 @@ namespace Web20
 
         public async Task<IActionResult> Index(string search)
         {
-#warning Este método contem uma parte de código não elegante. A fim de evitar a consulta e resposta de todos os resultados de maneira desnecessária -- Não esquecer de buscar uma solução mais elegante para o problema
-            int block = 0; //Variável a fim de impedir a consulta desnecessária de todos os itens do CRUD -- Favor tratar esse código maneira mais elegante
-            var appDbContext =
-                _context.Revista.Where(r => r.Id.Equals(block)).Include(r => r.CdAquisicaoNavigation).Include(r => r.CdEditorNavigation).Include(r => r.CdPeriodicidadeNavigation).OrderBy(r => r.Titulo);
-
-
-            var Revista = from r in _context.Revista
-                          select r;
-            if (!String.IsNullOrEmpty(search))
-            {
-                Revista =
-                    Revista.Where(r => r.Titulo.Contains(search) || r.Aleph.Equals(search) || r.Issn.Contains(search)).Where(r => r.Ativo.Equals(true)).Include(r => r.CdEditorNavigation).Include(r => r.CdPeriodicidadeNavigation).OrderBy(r => r.Titulo);
-                return View(await Revista.ToListAsync());
-            }
-            return View(await appDbContext.ToListAsync());
+            return View(revistaServicos.ListarRevista(context, search));
         }
 
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var revistum = await _context.Revista
-                .Include(r => r.CdAquisicaoNavigation)
-                .Include(r => r.CdEditorNavigation)
-                .Include(r => r.CdPeriodicidadeNavigation)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var revistum = revistaServicos.DetalharRevista(context, id);
             if (revistum == null)
-            {
                 return NotFound();
-            }
 
-            ViewData["Atualizacao"] = _context.Atualizacaos.Where(a => a.CdRevista == id).Include(a => a.CdUsuarioNavigation).OrderByDescending(a => a.DtAtualizacao).OrderByDescending(a => a.DtChegada);
+            ViewData["Atualizacao"] = revistaServicos.ListarAtualizacao(context, (int)id);
 
             return View(revistum);
         }
@@ -74,9 +54,9 @@ namespace Web20
         [Authorize(Roles = "Administrador, Editor, Coordenador")]
         public IActionResult Create()
         {
-            ViewData["CdAquisicao"] = new SelectList(_context.Aquisicaos, "Id", "TipoAquisicao");
-            ViewData["CdEditor"] = new SelectList(_context.Editors.OrderBy(e => e.NomeEditor), "Id", "NomeEditor");
-            ViewData["CdPeriodicidade"] = new SelectList(_context.Periodicidades, "Id", "TipoPeriodicidade");
+            ViewData["CdAquisicao"] = new SelectList(context.Aquisicaos, "Id", "TipoAquisicao");
+            ViewData["CdEditor"] = new SelectList(context.Editors.OrderBy(e => e.NomeEditor), "Id", "NomeEditor");
+            ViewData["CdPeriodicidade"] = new SelectList(context.Periodicidades, "Id", "TipoPeriodicidade");
             return View();
         }
 
@@ -91,12 +71,12 @@ namespace Web20
                 return View();
             }
 
-            UniqueRevistum unica = new UniqueRevistum(_context);
+            UniqueRevistum unica = new UniqueRevistum(context);
             if (ModelState.IsValid && unica.verificar(revistum.Titulo.ToString(), revistum.Ibict.ToString(), revistum.Issn.ToString(), revistum.Aleph.ToString()) == false)
             {
 
-                _context.Add(revistum);
-                await _context.SaveChangesAsync();
+                context.Add(revistum);
+                await context.SaveChangesAsync();
 
                 Atualizacao atualizacao = new Atualizacao()
                 {
@@ -106,15 +86,15 @@ namespace Web20
                     DtAtualizacao = DateTime.Today
                 };
 
-                _context.Atualizacaos.Add(atualizacao);
-                await _context.SaveChangesAsync();
+                context.Atualizacaos.Add(atualizacao);
+                await context.SaveChangesAsync();
 
                 TempData["SucessoRevista"] = "A revista " + revistum.Titulo.ToString() + " foi cadastrado com sucesso.";
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CdAquisicao"] = new SelectList(_context.Aquisicaos, "Id", "TipoAquisicao", revistum.CdAquisicao);
-            ViewData["CdEditor"] = new SelectList(_context.Editors.OrderBy(r => r.NomeEditor), "Id", "NomeEditor", revistum.CdEditor);
-            ViewData["CdPeriodicidade"] = new SelectList(_context.Periodicidades, "Id", "TipoPeriodicidade", revistum.CdPeriodicidade);
+            ViewData["CdAquisicao"] = new SelectList(context.Aquisicaos, "Id", "TipoAquisicao", revistum.CdAquisicao);
+            ViewData["CdEditor"] = new SelectList(context.Editors.OrderBy(r => r.NomeEditor), "Id", "NomeEditor", revistum.CdEditor);
+            ViewData["CdPeriodicidade"] = new SelectList(context.Periodicidades, "Id", "TipoPeriodicidade", revistum.CdPeriodicidade);
 
             TempData["ErroRevista"] = "A revista " + revistum.Titulo.ToString() + " contem dados da revista " + unica.nome(revistum.Titulo.ToString(), revistum.Ibict.ToString(), revistum.Issn.ToString(), revistum.Aleph.ToString()) + ".";
             return View();
@@ -128,14 +108,14 @@ namespace Web20
                 return NotFound();
             }
 
-            var revistum = await _context.Revista.FindAsync(id);
+            var revistum = await context.Revista.FindAsync(id);
             if (revistum == null)
             {
                 return NotFound();
             }
-            ViewData["CdAquisicao"] = new SelectList(_context.Aquisicaos, "Id", "TipoAquisicao", revistum.CdAquisicao);
-            ViewData["CdEditor"] = new SelectList(_context.Editors, "Id", "NomeEditor", revistum.CdEditor);
-            ViewData["CdPeriodicidade"] = new SelectList(_context.Periodicidades, "Id", "TipoPeriodicidade", revistum.CdPeriodicidade);
+            ViewData["CdAquisicao"] = new SelectList(context.Aquisicaos, "Id", "TipoAquisicao", revistum.CdAquisicao);
+            ViewData["CdEditor"] = new SelectList(context.Editors, "Id", "NomeEditor", revistum.CdEditor);
+            ViewData["CdPeriodicidade"] = new SelectList(context.Periodicidades, "Id", "TipoPeriodicidade", revistum.CdPeriodicidade);
             return View(revistum);
         }
 
@@ -153,8 +133,8 @@ namespace Web20
             {
                 try
                 {
-                    _context.Update(revistum);
-                    await _context.SaveChangesAsync();
+                    context.Update(revistum);
+                    await context.SaveChangesAsync();
 
                     Atualizacao atualizacao = new Atualizacao()
                     {
@@ -164,8 +144,8 @@ namespace Web20
                         DtAtualizacao = DateTime.Today
                     };
 
-                    _context.Atualizacaos.Add(atualizacao);
-                    await _context.SaveChangesAsync();
+                    context.Atualizacaos.Add(atualizacao);
+                    await context.SaveChangesAsync();
 
                 }
                 catch (DbUpdateConcurrencyException)
@@ -181,15 +161,15 @@ namespace Web20
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CdAquisicao"] = new SelectList(_context.Aquisicaos, "Id", "TipoAquisicao", revistum.CdAquisicao);
-            ViewData["CdEditor"] = new SelectList(_context.Editors, "Id", "NomeEditor", revistum.CdEditor);
-            ViewData["CdPeriodicidade"] = new SelectList(_context.Periodicidades, "Id", "TipoPeriodicidade", revistum.CdPeriodicidade);
+            ViewData["CdAquisicao"] = new SelectList(context.Aquisicaos, "Id", "TipoAquisicao", revistum.CdAquisicao);
+            ViewData["CdEditor"] = new SelectList(context.Editors, "Id", "NomeEditor", revistum.CdEditor);
+            ViewData["CdPeriodicidade"] = new SelectList(context.Periodicidades, "Id", "TipoPeriodicidade", revistum.CdPeriodicidade);
             return View(revistum);
         }
 
         public async Task<IActionResult> PDF()
         {
-            return new ViewAsPdf(await _context.Revista.Include(r => r.CdAquisicaoNavigation).Include(r => r.CdEditorNavigation).Include(r => r.CdPeriodicidadeNavigation).OrderBy(r => r.Titulo).ToListAsync());
+            return new ViewAsPdf(await context.Revista.Include(r => r.CdAquisicaoNavigation).Include(r => r.CdEditorNavigation).Include(r => r.CdPeriodicidadeNavigation).OrderBy(r => r.Titulo).ToListAsync());
         }
 
         public async Task<IActionResult> Excel()
@@ -212,7 +192,7 @@ namespace Web20
 
 
                 foreach (var revista
-                    in _context.Revista.Include(r => r.CdAquisicaoNavigation).Include(r => r.CdEditorNavigation).Include(r => r.CdPeriodicidadeNavigation).OrderBy(r => r.Titulo))
+                    in context.Revista.Include(r => r.CdAquisicaoNavigation).Include(r => r.CdEditorNavigation).Include(r => r.CdPeriodicidadeNavigation).OrderBy(r => r.Titulo))
                 {
 
 
@@ -251,7 +231,7 @@ namespace Web20
                 return NotFound();
             }
 
-            var revistum = await _context.Revista
+            var revistum = await context.Revista
                 .Include(r => r.CdAquisicaoNavigation)
                 .Include(r => r.CdEditorNavigation)
                 .Include(r => r.CdPeriodicidadeNavigation)
@@ -270,21 +250,21 @@ namespace Web20
         [Authorize(Roles = "Administrador, Coordenador")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var listaAtualizacao = _context.Atualizacaos.Where(a => a.CdRevista == id).ToList();
+            var listaAtualizacao = context.Atualizacaos.Where(a => a.CdRevista == id).ToList();
             foreach (var lista in listaAtualizacao)
             {
-                _context.Atualizacaos.Remove(lista);
-                await _context.SaveChangesAsync();
+                context.Atualizacaos.Remove(lista);
+                await context.SaveChangesAsync();
             }
-            var revistum = await _context.Revista.FindAsync(id);
-            _context.Revista.Remove(revistum);
-            await _context.SaveChangesAsync();
+            var revistum = await context.Revista.FindAsync(id);
+            context.Revista.Remove(revistum);
+            await context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool RevistumExists(int id)
         {
-            return _context.Revista.Any(e => e.Id == id);
+            return context.Revista.Any(e => e.Id == id);
         }
     }
 }
